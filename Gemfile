@@ -59,3 +59,4 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'dotenv-rails', require: 'dotenv/rails-now'
 
 gem 'document', path: 'modules/document'
+gem 'support', path: 'modules/support'
