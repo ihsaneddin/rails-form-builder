@@ -4,6 +4,7 @@ module Document
 
       attribute :begin_value, :integer
       attribute :end_value, :integer
+      attribute :weights, :string, array: true, default: []
 
       validates :begin_value,
                 presence: true
