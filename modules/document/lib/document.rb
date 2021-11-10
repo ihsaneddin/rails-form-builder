@@ -20,7 +20,7 @@ require 'document/virtual_model'
 
 require 'document/concerns/models/field'
 require 'document/concerns/models/form'
-%w[acceptance confirmation exclusion format inclusion length numericality presence].each do |file|
+%w[acceptance confirmation exclusion format inclusion length numericality presence file].each do |file|
   require "document/concerns/models/fields/validations/#{file}"
 end
 
