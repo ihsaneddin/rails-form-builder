@@ -15,7 +15,6 @@ class FormsController < ApplicationController
 
   def create
     @form = Document::Form.new(form_params)
-
     if @form.save
       redirect_to form_fields_url(@form), notice: "Form was successfully created."
     else
@@ -43,6 +42,6 @@ class FormsController < ApplicationController
     end
 
     def form_params
-      params.fetch(:form, {}).permit(:title, :description)
+      params.fetch(:form, {}).permit(:title, :name, :description)
     end
 end

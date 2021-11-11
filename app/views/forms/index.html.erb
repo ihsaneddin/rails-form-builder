@@ -1,0 +1,42 @@
+<div class="row gy-3">
+  <div class="col-12 d-flex justify-content-between">
+    <h2>Forms</h2>
+    <%= link_to "New Form", new_form_path, class: "btn btn-primary"%>
+  </div>
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col" width="20%">Title</th>
+                  <th scope="col" width="20%">Name</th>
+                  <th scope="col" width="30%">Description</th>
+                  <th scope="col" width="20%">Last Update</th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @forms.each do |form| %>
+                  <tr>
+                    <td><%= form.title %></td>
+                    <td><%= form.name %></td>
+                    <td><%= form.description %></td>
+                    <td><%= form.updated_at %></td>
+                    <td>
+                      <%= link_to "Show", form_fields_path(form), class: "btn btn-info" %>
+                      <%= link_to "Edit", edit_form_path(form), class: "btn btn-success" %>
+                      <%= link_to "Destroy", form, class: "btn btn-danger", method: :delete, data: { confirm: "Are you sure?" } %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

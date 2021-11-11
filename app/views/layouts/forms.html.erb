@@ -1,0 +1,14 @@
+<% content_for :content do %>
+  <div class="row">
+    <div class="col-12">
+      <div class="jumbotron">
+        <h1 class="display-3"><%= @form.title %></h1>
+        <p class="lead"><%= @form.description %></p>
+        <hr class="my-4">
+      </div>
+    </div>
+  </div>
+  <%= yield %>
+<% end %>
+
+<%= render template: "layouts/application" %>

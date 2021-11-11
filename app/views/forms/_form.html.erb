@@ -1,0 +1,34 @@
+<%= form_with(model: form, local: true) do |f| %>
+  <% if form.errors.any? %>
+    <div class="card mb-3">
+      <div class="card-header text-white bg-danger">
+        <p class="lead my-0">
+          <%= pluralize(form.errors.count, "error") %> prohibited this form from being saved:
+        </p>
+      </div>
+      <ul class="list-group list-group-flush">
+        <% form.errors.full_messages.each do |message| %>
+          <li class="list-group-item text-danger"><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <fieldset>
+    <div class="mb-3">
+      <%= f.label :title, class: "form-label", for: "form-title" %>
+      <%= f.text_field :title, class: "form-control", placeholder: "Title", id: "form-title" %>
+    </div>
+    <div class="mb-3">
+      <%= f.label :name, class: "form-label", for: "form-name" %>
+      <%= f.text_field :name, class: "form-control", placeholder: "Name", id: "form-name" %>
+    </div>
+    <div class="mb-3">
+      <%= f.label :description, class: "form-label", for: "form-description" %>
+      <%= f.text_area :description, class: "form-control", placeholder: "Description", id: "form-description" %>
+    </div>
+    <%= f.submit class: "btn btn-primary" %>
+  </fieldset>
+
+
+<% end %>

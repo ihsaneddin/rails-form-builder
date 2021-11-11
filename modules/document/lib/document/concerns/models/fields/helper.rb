@@ -30,14 +30,6 @@ module Document
             validations.is_a?(FieldOptions) && validations.attributes.any?
           end
 
-          def attached_choices?
-            false
-          end
-
-          def attached_data_source?
-            false
-          end
-
           def attached_nested_form?
             false
           end

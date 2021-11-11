@@ -1,0 +1,43 @@
+<div class="row gy-3">
+  <div class="col-12 d-flex justify-content-between">
+    <h2>Fields</h2>
+    <%= link_to "New Field", new_form_field_path, class: "btn btn-primary"%>
+  </div>
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col" width="20%">Name</th>
+                  <th scope="col" width="20%">Label</th>
+                  <th scope="col" width="20%">Type</th>
+                  <th scope="col" width="10%">Section</th>
+                  <th scope="col" width="10%">Accessibility</th>
+                  <th scope="col" width="20%"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @fields.each do |field| %>
+                  <tr>
+                    <td><%= field.name %></td>
+                    <td><%= field.label %></td>
+                    <td><%= field.class.model_name.human %></td>
+                    <td><%= field.section&.title %></td>
+                    <td><%= Document::Field.human_enum_value(:accessibility, field.accessibility) %></td>
+                    <td>
+                      <%= link_to "Edit", edit_form_field_path(@form, field), class: "btn btn-info" %>
+                      <%= link_to "Destroy", form_field_path(@form, field), class: "btn btn-danger", method: :delete, data: {confirm: "Are you sure?"} %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
