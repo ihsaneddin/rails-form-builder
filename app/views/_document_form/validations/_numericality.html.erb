@@ -1,0 +1,31 @@
+<% validations.build_numericality unless validations.numericality %>
+<% numericality = validations.numericality %>
+
+<fieldset class="border-0">
+  <legend>
+    Numericality
+  </legend>
+
+  <%= display_error_validations numericality %>
+
+  <%= f.fields_for :numericality, numericality do |ff| %>
+
+    <div class="mb-3">
+      <%= ff.label :lower_bound_check, class: "form-label" %>
+      <div class="input-group">
+        <%= ff.select :lower_bound_check, options_for_enum_select(numericality.class, :lower_bound_check, numericality.lower_bound_check), {}, class: "form-select col-2" %>
+        <%= ff.number_field :lower_bound_value, class: "col-10", step: 0.01, placeholder: "Lower limit"%>
+      </div>
+    </div>
+    <div class="mb-3">
+      <%= ff.label :upper_bound_check, class: "form-label" %>
+      <div class="input-group">
+        <%= ff.select :upper_bound_check, options_for_enum_select(numericality.class, :upper_bound_check, numericality.upper_bound_check), {}, class: "form-select col-2" %>
+        <%= ff.number_field :upper_bound_value, class: "col-10", step: 0.01, placeholder: "Higher limit"%>
+      </div>
+    </div>
+
+  <% end %>
+
+
+</fieldset>

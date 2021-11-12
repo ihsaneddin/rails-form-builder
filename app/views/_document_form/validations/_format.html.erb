@@ -1,0 +1,25 @@
+<% validations.build_format unless validations.format %>
+<% format = validations.format %>
+
+<fieldset class="border-0">
+  <legend>
+    Format
+  </legend>
+
+  <%= display_error_validations format %>
+
+  <%= f.fields_for :format, format do |ff| %>
+
+    <div class="mb-3">
+      <%= ff.label :with, class: "form-label" %>
+      <%= ff.text_field :with, class: "form-control", placeholder: "Regex"%>
+    </div>
+    <div class="mb-3">
+      <%= ff.label :message, class: "form-label" %>
+      <%= ff.text_field :message, class: "form-control", placeholder: "Message"%>
+    </div>
+
+  <% end %>
+
+
+</fieldset>

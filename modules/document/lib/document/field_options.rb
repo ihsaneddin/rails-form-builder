@@ -11,7 +11,7 @@ module Document
 
     attr_accessor :raw_attributes
 
-    attribute :html_options, :json, default: {}
+    #attribute :html_options, :json, default: {}
 
     def interpret_to(_model, _field_name, _accessibility, _options = {}); end
 

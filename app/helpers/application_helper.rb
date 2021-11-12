@@ -14,13 +14,10 @@ module ApplicationHelper
     nil
   end
 
-  def options_for_enum_select(klass, attribute, selected = nil)
-    container = klass.public_send(attribute.to_s.pluralize).map do |k, v|
-      v ||= k
-      [klass.human_enum_value(attribute, k), v]
+  def display_error_validations object
+    if object.errors.any?
+      render partial: "shared/errors", locals: { object: object }
     end
-
-    options_for_select(container, selected)
   end
 
 end

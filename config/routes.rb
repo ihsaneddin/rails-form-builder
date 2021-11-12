@@ -8,4 +8,11 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :fields, only: %i[] do
+    scope module: :fields do
+      resource :validations, only: %i[edit update]
+      resource :options, only: %i[edit update]
+    end
+  end
+
 end

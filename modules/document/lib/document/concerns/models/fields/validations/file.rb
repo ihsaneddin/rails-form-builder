@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Document
   module Concerns
     module Models
@@ -9,7 +7,7 @@ module Document
             extend ActiveSupport::Concern
 
             included do
-              embeds_one :file, class_name: "Fields::Validations::File::FileOptions"
+              embeds_one :file, class_name: "Document::Concerns::Models::Fields::Validations::File::FileOptions"
               accepts_nested_attributes_for :file
 
               after_initialize do

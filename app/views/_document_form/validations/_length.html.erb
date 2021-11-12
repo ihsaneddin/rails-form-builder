@@ -1,0 +1,29 @@
+<% validations.build_length unless validations.length %>
+<% length = validations.length %>
+
+<fieldset class="border-0">
+  <legend>
+    Length
+  </legend>
+
+  <%= display_error_validations length %>
+
+  <%= f.fields_for :length, length do |ff| %>
+
+    <div class="mb-3">
+      <%= ff.label :minimum, class: "form-label" %>
+      <%= ff.number_field :minimum, class: "form-control", min: 0, step: 1, placeholder: "Minimum"%>
+    </div>
+    <div class="mb-3">
+      <%= ff.label :maximum, class: "form-label" %>
+      <%= ff.number_field :maximum, class: "form-control", min: 0, step: 1, placeholder: "Maximum"%>
+    </div>
+    <div class="mb-3">
+      <%= ff.label :is, class: "form-label" %>
+      <%= ff.number_field :is, class: "form-control", min: 0, step: 1, placeholder: "Exact length"%>
+    </div>
+
+  <% end %>
+
+
+</fieldset>
