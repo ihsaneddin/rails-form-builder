@@ -1,10 +1,25 @@
+<% validations.build_inclusion unless validations.inclusion %>
+<% inclusion = validations.inclusion %>
+
 <fieldset class="border-0">
   <legend>
     Inclusion
   </legend>
   <div class="mb-3">
-    <p class="text-danger">
-      Not Implemented yet
-    </p>
+
+    <%= display_error_validations inclusion %>
+
+    <%= f.fields_for :inclusion, inclusion do |ff| %>
+
+    <div class="mb-3">
+      <%= ff.label "Included List", class: "form-label" %>
+      <%= ff.select :in, options_for_select(inclusion.in, inclusion.in), { include_hidden: false }, class: "form-control option-add-select2", multiple: true%>
+    </div>
+    <div class="mb-3">
+      <%= ff.label :message, class: "form-label" %>
+      <%= ff.text_field :message, class: "form-control", placeholder: "Message"%>
+    </div>
+
+  <% end %>
   </div>
 </fieldset>

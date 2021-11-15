@@ -26,8 +26,8 @@
                     <td><%= form.description %></td>
                     <td><%= form.updated_at %></td>
                     <td>
-                      <%= link_to "Show", form_fields_path(form), class: "btn btn-info" %>
-                      <%= link_to "Edit", edit_form_path(form), class: "btn btn-success" %>
+                      <%= link_to "Show", form_fields_path(form), class: "btn btn-info text-light" %>
+                      <%= link_to "Edit", edit_form_path(form), class: "btn btn-success text-light" %>
                       <%= link_to "Destroy", form, class: "btn btn-danger", method: :delete, data: { confirm: "Are you sure?" } %>
                     </td>
                   </tr>

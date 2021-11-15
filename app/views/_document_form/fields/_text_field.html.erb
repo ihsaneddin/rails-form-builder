@@ -1,0 +1,15 @@
+<div class="row">
+  <div class="col">
+    <%= f.label field.label, class: "form-label" %>
+    <% if field.options.multiline %>
+      <%= f.text_area field.name, class: 'form-control', id: field.id, required: field.required, disabled: field.access_readonly? %>
+    <% else %>
+      <%= f.text_field field.name, class: 'form-control', id: field.id, required: field.required, disabled: field.access_readonly? %>
+    <% end %>
+    <% if field.hint %>
+    <span class="form-text">
+      <%= field.hint %>
+    </span>
+    <% end %>
+  </div>
+</div>

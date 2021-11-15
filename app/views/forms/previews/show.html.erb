@@ -1,0 +1,15 @@
+<div class="row gy-3">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col">
+            <%= render "_document_form/render/form",
+               form: @form, instance: @instance,
+               options: {scope: :preview, url: form_preview_path(@form), local: true} %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

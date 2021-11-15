@@ -29,12 +29,12 @@
                     <td><%= Document::Field.human_enum_value(:accessibility, field.accessibility) %></td>
                     <td>
                       <% if field.validations_configurable? %>
-                        <%= link_to "Validations", edit_field_validations_path(field), class: "btn btn-warning" %>
+                        <%= link_to "Validations", edit_field_validations_path(field), class: "btn btn-warning text-light" %>
                       <% end %>
                       <% if field.options_configurable? %>
                         <%= link_to "Options", edit_field_options_path(field), class: "btn btn-secondary" %>
                       <% end %>
-                      <%= link_to "Edit", edit_form_field_path(@form, field), class: "btn btn-info" %>
+                      <%= link_to "Edit", edit_form_field_path(@form, field), class: "btn btn-info text-light" %>
                       <%= link_to "Destroy", form_field_path(@form, field), class: "btn btn-danger", method: :delete, data: {confirm: "Are you sure?"} %>
                     </td>
                   </tr>

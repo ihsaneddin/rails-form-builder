@@ -6,9 +6,8 @@
   <%= display_error_validations options %>
 
   <div class="mb-3">
-    <p class="text-danger">
-      Not Implemented yet
-    </p>
+    <%= f.label :step, class: "form-label" %>
+    <%= f.number_field :step, class: "form-control", min: 0, step: 1, placeholder: "Step"%>
   </div>
 
 </fieldset>

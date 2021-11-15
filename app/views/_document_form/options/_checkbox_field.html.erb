@@ -6,9 +6,8 @@
   <%= display_error_validations options %>
 
   <div class="mb-3">
-    <p class="text-danger">
-      Not Implemented yet
-    </p>
+    <%= f.label "Selection", class: "form-label" %>
+    <%= f.select :choices, options_for_select(options.choices, options.choices), { include_hidden: false }, class: "form-control option-add-select2", multiple: true%>
   </div>
 
 </fieldset>

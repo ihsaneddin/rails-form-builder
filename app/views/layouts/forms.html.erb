@@ -1,12 +1,39 @@
-<% content_for :content do %>
-  <div class="row">
-    <div class="col-12">
-      <div class="jumbotron">
-        <h1 class="display-3"><%= @form.title %></h1>
-        <p class="lead"><%= @form.description %></p>
-        <hr class="my-4">
-      </div>
-    </div>
+<%= content_for :content do %>
+  <div class="container-fluid pt-5 mb-4 px-0 bg-light text-secondary">
+    <h1 class="display-5 px-3 fw-bold"><%= @form.title %></h1>
+    <p class="col-md-8 px-3 fs-4">
+      <%= @form.description %>
+    </p>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <%= link_to form_fields_path(@form), class: "nav-link #{"active" if controller_name == "fields"}" do%>
+          <span class="lead">
+            <strong>Fields</strong>
+          </span>
+        <% end %>
+      </li>
+      <li class="nav-item">
+        <%= link_to form_sections_path(@form), class: "nav-link #{"active" if controller_name == "sections"}" do%>
+          <span class="lead">
+            <strong>Sections</strong>
+          </span>
+        <% end %>
+      </li>
+      <li class="nav-item">
+        <%= link_to form_preview_path(@form), class: "nav-link #{"active" if controller_name == "previews"}" do%>
+          <span class="lead">
+            <strong>Preview</strong>
+          </span>
+        <% end %>
+      </li>
+      <li class="nav-item">
+        <%= link_to form_load_path(@form), class: "nav-link #{"active" if controller_name == "loads"}" do%>
+          <span class="lead">
+            <strong>Preview</strong>
+          </span>
+        <% end %>
+      </li>
+    </ul>
   </div>
   <%= yield %>
 <% end %>

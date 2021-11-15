@@ -12,7 +12,7 @@
 
     <div class="mb-3">
       <%= ff.label :whitelist, class: "form-label" %>
-      <%= f.select :type, options_for_mime_types(selected: file.whitelist), {}, class: "form-select", multiple: true %>
+      <%= f.select :type, options_for_mime_types(selected: file.whitelist), {}, class: "form-select option-select2", multiple: true %>
     </div>
     <div class="mb-3">
       <%= ff.label :max_file_size, class: "form-label" %>
@@ -20,7 +20,7 @@
     </div>
     <div class="mb-3">
       <%= ff.label :file_size_unit, class: "form-label" %>
-      <%= f.select :file_size_unit, options_for_select([['MB', 'megabytes'], ['KB', 'kilobytes'], ['Byte', 'bytes']], file.file_size_unit), {}, class: "form-control"%>
+      <%= f.select :file_size_unit, options_for_select([['MB', 'megabytes'], ['KB', 'kilobytes'], ['Byte', 'bytes']], file.file_size_unit), {}, class: "form-control option-select2"%>
     </div>
 
   <% end %>

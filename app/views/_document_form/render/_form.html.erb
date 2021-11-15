@@ -1,0 +1,22 @@
+<% options ||= {} %>
+<%= form_with(model: instance, **options) do |f| %>
+
+  <%= display_error_validations form %>
+
+  <fieldset>
+    <% form.sections.each do |section| %>
+      <% fields = section.virtual_fields(instance) %>
+      <% next if fields.empty? %>
+      <% unless section.headless? %>
+        <legend class="h4"><%= section.title %></legend>
+      <% end %>
+      <% fields.each do |field| %>
+        <%= render "_document_form/fields/#{field.type_key}", f: f, field: field %>
+      <% end %>
+    <% end %>
+    <hr />
+    <div class="mt-4">
+      <%= f.submit class: "btn btn-primary" %>
+    </div>
+  </fieldset>
+<% end %>

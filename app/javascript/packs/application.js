@@ -18,8 +18,17 @@ require("@popperjs/core")
 
 import "bootstrap"
 
+var jQuery = require('jquery')
+
+// include jQuery in global and window scope (so you can access it globally)
+// in your web browser, when you type $('.div'), it is actually refering to global.$('.div')
+global.$ = global.jQuery = jQuery;
+window.$ = window.jQuery = jQuery;
+
 // Import the specific modules you may need (Modal, Alert, etc)
 import { Tooltip, Popover } from "bootstrap"
+
+import "select2"
 
 // The stylesheet location we created earlier
 require("../stylesheets/application.scss")
@@ -36,4 +45,14 @@ document.addEventListener("turbolinks:load", () => {
     var popoverList = popoverTriggerList.map(function(popoverTriggerEl) {
         return new Popover(popoverTriggerEl)
     })
+
+    $(document).ready(() => {
+        $(".option-add-select2").select2({
+            tags: true,
+            tokenSeparators: [',', ' ']
+        })
+        $(".option-select2").select2({
+        })
+    })
+
 })

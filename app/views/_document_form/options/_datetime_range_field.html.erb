@@ -1,14 +1,146 @@
 <fieldset class="border-0">
   <legend>
-    Date Time Range Field
+    Datetime Range Field
   </legend>
 
   <%= display_error_validations options %>
 
   <div class="mb-3">
-    <p class="text-danger">
-      Not Implemented yet
-    </p>
+    <%= f.label :begin_from, class: "form-label" %>
+    <div class="row align-items-center">
+      <div class="col">
+        <div class="form-check form-check-inline">
+          <%= f.radio_button :begin_from, "unlimited", class: "form-check-input begin-type" %>
+          <%= f.label "No Limit", class: "form-check-label" %>
+        </div>
+        <div class="form-check form-check-inline">
+          <%= f.radio_button :begin_from, "now", class: "form-check-input begin-type" %>
+          <%= f.label "Now with offset", class: "form-check-label" %>
+        </div>
+        <div class="form-check-inline">
+          <%= f.number_field :begin_from_now_minutes_offset, step: 1, id: "begin-from-now-minutes-offset", class: "form-control #{'d-none' unless options.begin_from == 'now'}", placeholder: "Minute offset"%>
+        </div>
+        <div class="form-check form-check-inline">
+          <%= f.radio_button :begin_from, "time", class: "form-check-input begin-type" %>
+          <%= f.label "Specific date time", class: "form-check-label" %>
+        </div>
+        <div class="form-check-inline">
+          <%= f.datetime_field :begin, id: "begin-date-time-specific", class: "form-control #{'d-none' unless options.begin_from == 'time'}", placeholder: "Select time"%>
+        </div>
+        <div class="form-check form-check-inline">
+          <%= f.radio_button :begin_from, "minutes_before_end", class: "form-check-input begin-type" %>
+          <%= f.label "Minutes before end", class: "form-check-label" %>
+        </div>
+        <div class="form-check-inline">
+          <%= f.number_field :minutes_before_end, step: 1, min: 1, id: "begin-minutes-before-end", class: "form-control #{'d-none' unless options.begin_from == 'minutes_before_end'}", placeholder: "Minutes before end"%>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mb-3">
+    <%= f.label :end_to, class: "form-label" %>
+    <div class="row align-items-center">
+      <div class="col">
+        <div class="form-check form-check-inline">
+          <%= f.radio_button :end_to, "unlimited", class: "form-check-input end-type" %>
+          <%= f.label "No Limit", class: "form-check-label" %>
+        </div>
+        <div class="form-check form-check-inline">
+          <%= f.radio_button :end_to, "now", class: "form-check-input end-type" %>
+          <%= f.label "Now with offset", class: "form-check-label" %>
+        </div>
+        <div class="form-check-inline">
+          <%= f.number_field :end_to_now_minutes_offset, step: 1, id: "end-to-now-minutes-offset", class: "form-control #{'d-none' unless options.end_to == 'now'}", placeholder: "Minute offset"%>
+        </div>
+        <div class="form-check form-check-inline">
+          <%= f.radio_button :end_to, "time", class: "form-check-input end-type" %>
+          <%= f.label "Specific date time", class: "form-check-label" %>
+        </div>
+        <div class="form-check-inline">
+          <%= f.datetime_field :end, id: "end-date-time-specific", class: "form-control #{'d-none' unless options.begin_from == 'time'}", placeholder: "Select time"%>
+        </div>
+        <div class="form-check form-check-inline">
+          <%= f.radio_button :end_to, "minutes_since_begin", class: "form-check-input end-type" %>
+          <%= f.label "Minutes since begin", class: "form-check-label" %>
+        </div>
+        <div class="form-check-inline">
+          <%= f.number_field :minutes_since_begin, step: 1, min: 1, id: "end-minutes-since-begin", class: "form-control #{'d-none' unless options.begin_from == 'minutes_before_end'}", placeholder: "Minutes before end"%>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mb-3">
+    <div class="mb-3">
+      <%= f.check_box :fixed_end, class: "form-check-input" %>
+      <%= f.label " Fixed end?", class: "form-check-label" %>
+    </div>
+  </div>
+  <div class="mb-3">
+    <div class="mb-3">
+      <%= f.check_box :nullable_end, class: "form-check-input" %>
+      <%= f.label " End can be blank?", class: "form-check-label" %>
+    </div>
+  </div>
+  <div class="mb-3">
+    <%= f.label :minimum_distance, class: "form-label" %>
+    <div class="input-group">
+      <%= f.number_field :minimum_distance, class: "form-control", min: 0, step: 1, placeholder: ""%>
+      <span class="input-group-text" id="basic-addon1">Minutes</span>
+    </div>
+  </div>
+  <div class="mb-3">
+    <%= f.label :maximum_distance, class: "form-label" %>
+    <div class="input-group">
+      <%= f.number_field :maximum_distance, class: "form-control", min: 0, step: 1, placeholder: ""%>
+      <span class="input-group-text" id="basic-addon1">Minutes</span>
+    </div>
   </div>
 
 </fieldset>
+
+<%= content_for :javascript do %>
+
+  <script type="text/javascript">
+
+    $(document).ready(() => {
+
+      $('input[type=radio].begin-type').change((e) => {
+        if(e.target.value == 'time'){
+          $('input[type=datetime-local]#begin-date-time-specific').removeClass('d-none')
+        }else{
+          $('input[type=datetime-local]#begin-date-time-specific').addClass('d-none')
+        }
+        if(e.target.value == 'now'){
+          $('input[type=number]#begin-from-now-minutes-offset').removeClass('d-none')
+        }else{
+          $('input[type=number]#begin-from-now-minutes-offset').addClass('d-none')
+        }
+        if(e.target.value == 'minutes_before_end'){
+          $('input[type=number]#begin-minutes-before-end').removeClass('d-none')
+        }else{
+          $('input[type=number]#begin-minutes-before-end').addClass('d-none')
+        }
+      })
+      $('input[type=radio].end-type').change((e) => {
+        if(e.target.value == 'time'){
+          $('input[type=datetime-local]#end-date-time-specific').removeClass('d-none')
+        }else{
+          $('input[type=datetime-local]#end-date-time-specific').addClass('d-none')
+        }
+        if(e.target.value == 'now'){
+          $('input[type=number]#end-to-now-minutes-offset').removeClass('d-none')
+        }else{
+          $('input[type=number]#end-to-now-minutes-offset').addClass('d-none')
+        }
+        if(e.target.value == 'minutes_since_begin'){
+          $('input[type=number]#end-minutes-since-begin').removeClass('d-none')
+        }else{
+          $('input[type=number]#end-minutes-since-begin').addClass('d-none')
+        }
+      })
+
+    })
+
+  </script>
+
+<% end %>

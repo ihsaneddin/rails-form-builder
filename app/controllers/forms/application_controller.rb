@@ -10,7 +10,7 @@ class Forms::ApplicationController < ApplicationController
     end
 
     def set_form_with_eager_load_fields_and_sections
-      @form = Document::Form.includes(:sections, fields: [:choices]).find(params[:form_id])
+      @form = Document::Form.includes(:sections, :fields).find(params[:form_id])
 
       grouped_fields = @form.fields.group_by(&:section_id)
       @form.sections.each do |section|

@@ -6,9 +6,12 @@
   <%= display_error_validations options %>
 
   <div class="mb-3">
-    <p class="text-danger">
-      Not Implemented yet
-    </p>
+    <%= f.check_box :strict, class: "form-check-input" %>
+    <%= f.label " Can only select from collection", class: "form-check-label" %>
+  </div>
+  <div class="mb-3">
+    <%= f.label "Selection", class: "form-label" %>
+    <%= f.select :choices, options_for_select(options.choices, options.choices), { include_hidden: false }, class: "form-control option-add-select2", multiple: true%>
   </div>
 
 </fieldset>
