@@ -1,0 +1,11 @@
+<div class="row mb-3">
+  <div class="col">
+    <%= f.label field.label, class: "form-label" %>
+    <%= f.number_field field.name, class: 'form-control', id: field.id, required: field.required, disabled: field.access_readonly?, **field.to_builder_options %>
+    <% if field.hint %>
+    <span class="form-text">
+      <%= field.hint %>
+    </span>
+    <% end %>
+  </div>
+</div>

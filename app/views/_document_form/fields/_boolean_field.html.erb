@@ -1,0 +1,11 @@
+<div class="row mb-3">
+  <div class="col">
+    <%= f.check_box field.name, class: 'form-check-input', id: field.id, required: field.required, disabled: field.access_readonly? %>
+    <%= f.label field.label, class: "form-label" %>
+    <% if field.hint %>
+    <span class="form-text">
+      <%= field.hint %>
+    </span>
+    <% end %>
+  </div>
+</div>

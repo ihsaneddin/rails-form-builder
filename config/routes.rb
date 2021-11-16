@@ -18,4 +18,10 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :nested_forms, only: %i[] do
+    scope module: :nested_forms do
+      resources :fields, except: %i[show]
+    end
+  end
+
 end

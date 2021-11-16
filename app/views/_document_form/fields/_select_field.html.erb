@@ -1,0 +1,11 @@
+<div class="row mb-3">
+  <div class="col">
+    <%= f.label field.label, class: "form-label" %>
+    <%= f.select :file_size_unit, options_for_select(field.options.choices, field.value), {include_blank: field.include_blank?}, id: field.id, class: "form-control option-select2", required: field.required, disabled: field.access_readonly?%>
+    <% if field.hint %>
+    <span class="form-text">
+      <%= field.hint %>
+    </span>
+    <% end %>
+  </div>
+</div>

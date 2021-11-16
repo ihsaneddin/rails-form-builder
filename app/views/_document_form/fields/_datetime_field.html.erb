@@ -1,0 +1,11 @@
+<div class="row mb-3">
+  <div class="col">
+    <%= f.label field.label, class: "form-label" %>
+    <%= f.datetime_field field.name, field.field_options.merge(class: 'form-control', id: field.id, required: field.required, disabled: field.access_readonly?) %>
+    <% if field.hint %>
+    <span class="form-text">
+      <%= field.hint %>
+    </span>
+    <% end %>
+  </div>
+</div>

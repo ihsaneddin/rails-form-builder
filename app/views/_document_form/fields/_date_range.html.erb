@@ -1,0 +1,20 @@
+<% f.object.send("build_#{field.name}") unless f.object.send(field.name) %>
+
+<div class="row mb-3">
+  <div class="col-12">
+    <%= f.label field.label, class: "form-label" %>
+  </div>
+  <%= f.fields_for field.name do |ff| %>
+    <div class="col-auto">
+      <%= ff.date_field :begin, class: 'form-control', id: "#{field.id}_begin", required: field.required, **field.begin_options %>
+    </div>
+    <div class="col-auto">
+      <%= ff.date_field :end, class: 'form-control', id: "#{field.id}_end", required: field.required, **field.end_options %>
+    </div>
+  <% end %>
+  <% if field.hint %>
+    <span class="form-text">
+      <%= field.hint %>
+    </span>
+  <% end %>
+</div>

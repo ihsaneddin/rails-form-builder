@@ -1,7 +1,10 @@
 <div class="row gy-3">
   <div class="col-12 d-flex justify-content-between">
     <h2>Fields</h2>
-    <%= link_to "New Field", new_form_field_path, class: "btn btn-primary"%>
+    <div>
+      <%= link_to "New Field", new_nested_form_field_path(@nested_form), class: "btn btn-primary"%>
+      <%= link_to "Back", smart_form_fields_path(@nested_form.attachable.form), class: "btn btn-secondary"%>
+    </div>
   </div>
   <div class="col-12">
     <div class="card">
@@ -14,7 +17,6 @@
                   <th scope="col" width="20%">Name</th>
                   <th scope="col" width="20%">Label</th>
                   <th scope="col" width="20%">Type</th>
-                  <th scope="col" width="10%">Section</th>
                   <th scope="col" width="10%">Accessibility</th>
                   <th scope="col" width="20%"></th>
                 </tr>
@@ -25,7 +27,6 @@
                     <td><%= field.name %></td>
                     <td><%= field.label %></td>
                     <td><%= field.class.model_name.human %></td>
-                    <td><%= field.section&.title %></td>
                     <td><%= Document::Field.human_enum_value(:accessibility, field.accessibility) %></td>
                     <td>
                       <% if field.attached_nested_form? %>
@@ -37,8 +38,8 @@
                       <% if field.options_configurable? %>
                         <%= link_to "Options", edit_field_options_path(field), class: "btn btn-secondary" %>
                       <% end %>
-                      <%= link_to "Edit", edit_form_field_path(@form, field), class: "btn btn-info text-light" %>
-                      <%= link_to "Destroy", form_field_path(@form, field), class: "btn btn-danger", method: :delete, data: {confirm: "Are you sure?"} %>
+                      <%= link_to "Edit", edit_nested_form_field_path(@nested_form, field), class: "btn btn-info text-light" %>
+                      <%= link_to "Destroy", edit_nested_form_field_path(@nested_form, field), class: "btn btn-danger", method: :delete, data: {confirm: "Are you sure?"} %>
                     </td>
                   </tr>
                 <% end %>

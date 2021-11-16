@@ -1,0 +1,18 @@
+<div class="row mb-3">
+  <div class="col-12">
+    <%= f.label field.label, class: "form-label" %>
+  </div>
+  <div class="col-12">
+    <%= f.collection_radio_buttons field.name, field.options.choices.map{|d| [d,d] }, :first, :last do |ff,m| %>
+      <%= ff.radio_button class: 'form-check-input', disabled: field.access_readonly? %>
+      <%= label_tag ff.text, ff.text, class: "form-check-label" %>
+    <% end %>
+  </div>
+  <% if field.hint %>
+    <div class="col-12">
+      <span class="form-text">
+        <%= field.hint %>
+      </span>
+    </div>
+  <% end %>
+</div>

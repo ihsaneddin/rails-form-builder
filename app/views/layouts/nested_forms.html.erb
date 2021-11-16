@@ -1,0 +1,11 @@
+<%= content_for :content do %>
+  <div class="container-fluid pt-4 pb-2 mb-4 px-0 bg-light text-secondary">
+    <h1 class="h3 px-3 fw-bold">Nested Form for <%= @nested_form.attachable.label %></h1>
+    <p class="col-md-8 px-3 fs-5 ">
+      <%= @nested_form.attachable.hint %>
+    </p>
+  </div>
+  <%= yield %>
+<% end %>
+
+<%= render template: "layouts/application" %>

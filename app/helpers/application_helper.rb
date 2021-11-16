@@ -20,4 +20,15 @@ module ApplicationHelper
     end
   end
 
+  def smart_form_fields_path(form)
+    case form
+    when Document::Form
+      form_fields_path(form)
+    when Document::NestedForm
+      nested_form_fields_path(form)
+    else
+      raise "Unknown form: #{form.class}"
+    end
+  end
+
 end
