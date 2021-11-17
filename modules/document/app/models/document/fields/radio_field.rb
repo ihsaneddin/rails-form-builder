@@ -19,7 +19,7 @@ module Document
           super
           return if accessibility != :read_and_write
 
-          choice = options.choices
+          choices = options.choices
           return if choices.empty?
 
           model.validates name, inclusion: { in: choices }, allow_blank: true

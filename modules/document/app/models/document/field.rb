@@ -71,7 +71,6 @@ module Document
           else
             self.options
           end
-
         options.interpret_to(model, name, accessibility)
       end
 

@@ -38,7 +38,7 @@ module Document
                 options[:file_size_unit] = file_size_unit
                 options[:max_file_size_in_bytes] = max_file_size_in_bytes
                 options.symbolize_keys!
-                # model.validates_with FileContentTypeValidator, _merge_attributes([field_name, options])
+                model.validates_with FileContentTypeValidator, _merge_attributes([field_name, options])
               end
 
               def max_file_size_in_bytes

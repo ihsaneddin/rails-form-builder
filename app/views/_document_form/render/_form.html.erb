@@ -1,7 +1,7 @@
 <% options ||= {} %>
 <%= form_with(model: instance, **options) do |f| %>
 
-  <%= display_error_validations form %>
+  <%= display_error_validations instance %>
 
   <fieldset>
     <% form.sections.each do |section| %>

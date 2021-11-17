@@ -22,6 +22,9 @@ class Forms::PreviewsController < Forms::ApplicationController
 
     def set_preview
       @preview = @form.to_virtual_model
+    rescue => e
+      debugger
+      raise e
     end
 
     def preview_params

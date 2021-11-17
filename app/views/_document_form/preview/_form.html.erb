@@ -1,0 +1,29 @@
+<% form.sections.each do |section| %>
+  <% fields = section.virtual_fields(instance) %>
+  <% next if fields.empty? %>
+  <fieldset>
+    <% unless section.headless? %>
+      <legend class="h4"><%= section.title %></legend>
+    <% end %>
+    <% fields.each do |field| %>
+      <div class="row mb-3">
+        <label class="col-sm-2 form-label"><%= field.label %></label>
+        <div class="col-sm-10">
+          <% if field.nested_form_field? %>
+            <% next unless field.value_for_preview %>
+            <%= render "_document_form/preview/nested_form", form: field.nested_form, instance: field.value_for_preview %>
+          <% elsif field.multiple_nested_form? %>
+            <% next if field.value_for_preview.empty? %>
+            <%= field.value_for_preview.map do |nested_instance| %>
+              <% render "_document_form/preview/nested_form", form: field.nested_form, instance: nested_instance %>
+            <% end.join("<hr />").html_safe %>
+          <% else %>
+            <span class="fs-6">
+              <%= field.value_for_preview %>
+            </span>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </fieldset>
+<% end %>

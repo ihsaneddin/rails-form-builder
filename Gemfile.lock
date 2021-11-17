@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/ihsaneddin/activeentity
+  revision: a1365891c9cd9e8869c52707b7ce1e6df440f985
+  specs:
+    activeentity (6.1.1)
+      activemodel (~> 6.0, < 7.0)
+      activesupport (~> 6.0, < 7.0)
+
 PATH
   remote: modules/document
   specs:
@@ -66,9 +74,6 @@ GEM
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.1, >= 1.2.0)
-    activeentity (6.1.1)
-      activemodel (~> 6.0, < 7.0)
-      activesupport (~> 6.0, < 7.0)
     activejob (6.1.4.1)
       activesupport (= 6.1.4.1)
       globalid (>= 0.3.6)
@@ -292,6 +297,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  activeentity (>= 6.1.0)!
   bootsnap (>= 1.4.4)
   byebug
   capybara (>= 3.26)

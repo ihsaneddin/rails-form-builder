@@ -5,7 +5,7 @@
       <%= display_error_validations form %>
     </div>
     <div class="col-12">
-      <% form.virtual_fields(f.object).each do |field| %>
+      <% form.get_virtual_fields(f.object).each do |field| %>
         <%unless field.access_hidden? %>
           <%= render "_document_form/fields/#{field.type_key}", f: f, field: field, nesting: nesting %>
         <% end %>

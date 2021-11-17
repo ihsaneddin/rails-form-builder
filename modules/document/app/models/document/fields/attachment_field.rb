@@ -3,6 +3,7 @@ module Document
   module Fields
     class AttachmentField < Field
       serialize :validations, Validations::AttachmentField
+      serialize :options, Options::AttachmentField
 
       def stored_type
         :string
@@ -24,7 +25,7 @@ module Document
 
       def interpret_validations_to model, accessibility, overrides
         file_validation = self.validations.file
-        model.uploadable_validations({presence: validations.presence, max_file_size: validations.file.max_file_size_in_bytes, whitelist: validations.file.whitelist})
+        model.uploadable_validations(fieldname: name.to_sym, validations: {presence: validations.presence, max_file_size: validations.file.max_file_size_in_bytes, whitelist: validations.file.whitelist})
         super(model, accessibility, overrides)
       end
 

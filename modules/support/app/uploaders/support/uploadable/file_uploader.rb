@@ -15,9 +15,8 @@ module Support
 
       Attacher.validate do
         # validate with model validation settings
-        whitelist = record.whitelist
-        max_file_size = record.max_file_size
-
+        whitelist = record.whitelist name
+        max_file_size = record.max_file_size name
         validate_mime_type_inclusion whitelist if whitelist
         validate_max_size max_file_size if max_file_size
       end
@@ -43,7 +42,7 @@ module Support
         # conditional processing if processing is enabled for type (image, video, …)
         # using Support::Processor or a processor defined by Upload model
         type = io.mime_type.split('/')[0]
-        processors = context[:record].processors
+        processors = context[:record].processors name
         if processors && processors[type.to_sym]
           processor = processors[type.to_sym]
           download_and_process(io, processor)

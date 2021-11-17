@@ -7,7 +7,6 @@ module Document
 
           module ClassMethods
             def prepend_features(base)
-              debugger
               if base.instance_variable_defined?(:@_dependencies)
                 base.instance_variable_get(:@_dependencies) << self
                 false

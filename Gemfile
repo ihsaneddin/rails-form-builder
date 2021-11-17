@@ -67,3 +67,4 @@ gem "rubocop-rails"
 gem 'document', path: 'modules/document'
 gem 'support', path: 'modules/support'
 
+gem "activeentity", ">= 6.1.0", git: 'https://github.com/ihsaneddin/activeentity'

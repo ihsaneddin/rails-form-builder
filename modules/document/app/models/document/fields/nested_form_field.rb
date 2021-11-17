@@ -2,7 +2,7 @@ module Document
   module Fields
     class NestedFormField < Document::Field
 
-      after_create do
+      after_save do
         build_nested_form.save! unless nested_form.present?
       end
 
