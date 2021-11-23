@@ -19,7 +19,7 @@ module Document
         accessibility = overrides.fetch(:accessibility, self.accessibility)
         return model if accessibility == :hidden
 
-        model.attribute name, stored_type, default: [], array_without_blank: true
+        model.field name, type: Array, default: []
         model.attr_readonly name if accessibility == :readonly
 
         interpret_validations_to model, accessibility, overrides
@@ -33,8 +33,7 @@ module Document
         def interpret_extra_to(model, accessibility, overrides = {})
           super
           return if accessibility != :read_and_write || !options.strict
-
-          model.validates name, subset: { in: options.choices.pluck(:label) }, allow_blank: true
+          model.validates_with Document::Concerns::Models::Fields::Validators::SubsetValidator, _merge_attributes([name, { in: options.choices }, allow_blank: true])
         end
 
     end

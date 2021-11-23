@@ -1,9 +1,11 @@
 module Document
   module Fields::Embeds
-    class IntegerRange < Document::VirtualModel
+    class IntegerRange
 
-      attribute :begin, :integer
-      attribute :end, :integer
+      include Mongoid::Document
+
+      field :begin, type: :big_decimal
+      field :end, type: :big_decimal
 
       validates :begin, :end,
                 presence: true,

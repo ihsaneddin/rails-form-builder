@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_01_081417) do
+ActiveRecord::Schema.define(version: 2021_11_22_150308) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,9 +33,12 @@ ActiveRecord::Schema.define(version: 2021_11_01_081417) do
     t.bigint "form_id"
     t.bigint "section_id"
     t.bigint "field_group_id"
+    t.string "data_type", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["field_group_id"], name: "index_document_fields_on_field_group_id"
+    t.index ["form_id", "name"], name: "index_document_fields_on_form_id_and_name", unique: true
+    t.index ["form_id", "position"], name: "index_document_fields_on_form_id_and_position"
     t.index ["form_id"], name: "index_document_fields_on_form_id"
     t.index ["section_id"], name: "index_document_fields_on_section_id"
   end

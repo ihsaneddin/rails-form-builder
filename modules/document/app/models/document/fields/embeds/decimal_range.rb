@@ -1,9 +1,11 @@
 module Document
   module Fields::Embeds
-    class DecimalRange < Document::VirtualModel
+    class DecimalRange
 
-      attribute :begin, :decimal
-      attribute :end, :decimal
+      include Mongoid::Document
+
+      field :begin, type: :big_decimal
+      field :end, type: :big_decimal
 
       validates :begin, :end,
                 presence: true,

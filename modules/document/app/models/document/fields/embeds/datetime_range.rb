@@ -1,9 +1,11 @@
 module Document
   module Fields::Embeds
-    class DatetimeRange < Document::VirtualModel
+    class DatetimeRange
 
-      attribute :begin, :datetime
-      attribute :end, :datetime
+      include Mongoid::Document
+
+      field :begin, type: :date_time
+      field :end, type: :date_time
 
       validates :begin,
                 presence: true

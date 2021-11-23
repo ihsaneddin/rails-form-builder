@@ -43,7 +43,7 @@ module Document
         end
 
         def stored_type
-          raise NotImplementedError
+          :text #raise NotImplementedError
         end
 
         def default_value
@@ -57,7 +57,7 @@ module Document
           return model if accessibility == :hidden
 
           default_value = overrides.fetch(:default_value, self.default_value)
-          model.attribute name, stored_type, default: default_value
+          model.field name, type: stored_type, default: default_value
 
           model.attr_readonly name if accessibility == :readonly
 

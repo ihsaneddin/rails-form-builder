@@ -5,6 +5,12 @@ module Document
 
     attr_accessor :virtual_fields
 
+    before_save do
+      if attachable
+        self.name = attachable.name
+      end
+    end
+
     def get_virtual_fields instance, _fields = nil
       _fields ||= fields
       _fields.map do |field|

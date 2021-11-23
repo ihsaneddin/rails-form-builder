@@ -19,6 +19,9 @@ class NestedForms::FieldsController < NestedForms::ApplicationController
     else
       render :new
     end
+  rescue => e
+    debugger
+    raise e
   end
 
   def update

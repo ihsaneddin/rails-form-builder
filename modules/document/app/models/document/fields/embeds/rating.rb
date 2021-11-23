@@ -1,6 +1,6 @@
 module Document
   module Fields::Embeds
-    class Rating < Document::VirtualModel
+    class Rating < Document::VirtualOptions
 
       attribute :begin, :integer
       attribute :end, :integer

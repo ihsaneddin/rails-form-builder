@@ -43,16 +43,9 @@ module Document
               # end
 
               def has_one_attached(name)
-                class_eval do
-                  class << self
-                    alias_method :before_save, :before_validation
-                    alias_method :after_commit, :after_validation
-                    alias_method :after_save, :after_validation
-                  end
-                end
 
-                attribute "#{name}_data", :string
-                serialize"#{name}_data", JSON
+                field "#{name}_data", type: String
+
                 unless included_modules.include?(Support::Uploadable::Models::Concerns::ActsAsUploadable)
                   include Support::Uploadable::Models::Concerns::ActsAsUploadable
                 end

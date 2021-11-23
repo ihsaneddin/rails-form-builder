@@ -2,13 +2,13 @@ module Document
   module Fields
     class AttachmentFieldPresenter < FieldPresenter
 
-      def value_for_preview
-        id = value
-        return if id.blank?
-        blob = Document::Attachment.find_by id: id
-        return unless  blob
+      include ActionView::Helpers::UrlHelper
 
-        Document::UploadPresenter.new(blob).present
+      def value_for_preview
+        value = target.send name
+        return if value.blank?
+        url = "#{ENV['BASE_URL'] || 'http://localhost:3000'}"
+        link_to value.original_filename, "#{url}#{value.url}"
       end
 
       def access_hidden?

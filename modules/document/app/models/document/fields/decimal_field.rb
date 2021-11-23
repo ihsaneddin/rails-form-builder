@@ -6,7 +6,7 @@ module Document
       serialize :options, Options::DecimalField
 
       def stored_type
-        :decimal
+        :big_decimal
       end
 
     end

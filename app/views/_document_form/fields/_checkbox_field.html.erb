@@ -1,8 +1,8 @@
 <div class="row mb-3">
   <div class="col">
-    <%= f.collection_check_boxes field.name, field.options.choices do |ff| %>
-      <%= ff.check_box field.name, class: 'form-check-input', disabled: field.access_readonly? %>
-      <%= ff.label field.label, class: "form-label" %>
+    <%= f.collection_check_boxes field.name, field.options.choices.map{|d| [d,d] }, :first, :last do |ff| %>
+      <%= ff.check_box class: 'form-check-input', disabled: field.access_readonly? %>
+      <%= label_tag ff.text, ff.text, class: "form-check-label" %>
     <% end %>
     <% if field.hint %>
     <span class="form-text">
