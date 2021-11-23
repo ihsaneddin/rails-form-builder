@@ -26,7 +26,7 @@ module Document
         model.nested_models[name] = nested_model
 
         model.embeds_many name, class_name: nested_model.name, validate: true
-        model.accepts_nested_attributes_for name, reject_if: :all_blank
+        model.accepts_nested_attributes_for name, reject_if: :all_blank, allow_destroy: true
         model.attr_readonly name if accessibility == :readonly
 
         interpret_validations_to model, accessibility, overrides

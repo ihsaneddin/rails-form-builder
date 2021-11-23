@@ -1,0 +1,34 @@
+
+<div class="row mb-3">
+  <div class="col">
+    <%= f.label field.label, class: "form-label" %>
+    <%= f.file_field field.name, class: 'form-control', id: field.id, required: field.required, disabled: field.access_readonly?, multiple: true %>
+    <% if f.object.send(field.name).any?{|att| att.errors.any? } %>
+      <p class="form-text text-danger">
+        <%= f.object.send(field.name).map{|att| att.errors.full_messages.uniq }.flatten.compact.uniq.join(", ") %>
+      </p>
+    <% end %>
+    <% if field.hint %>
+    <p class="form-text">
+      <%= field.hint %>
+    </p>
+    <% end %>
+  </div>
+</div>
+
+<% if f.object.send(field.name).present? %>
+  <% nesting ||= false %>
+  <%= f.fields_for field.name, f.object.send(field.name) do |ff| %>
+    <% next if ff.object.attachment.nil? %>
+    <div class="nested_form row bg-light mx-2 py-2 mb-3">
+      <div class="col-md-4 col-sm-6 col-xs-12">
+        <%= link_to ff.object.attachment.original_filename, ff.object.attachment.url %>
+      </div>
+      <% if field.access_read_and_write? %>
+        <div class="col-12 d-flex justify-content-end mt-3">
+          <%= link_to_remove_association "Remove", ff, class: "btn btn-danger", wrapper_class: "nested_form" %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

@@ -1,0 +1,21 @@
+<fieldset class="border-0">
+  <legend>
+    Multiple Attachment Field
+  </legend>
+
+  <%= display_error_validations options %>
+
+  <div class="mb-3">
+    <%= f.label "Allowred mime types for files", class: "form-label" %>
+    <%= f.select :whitelist, options_for_mime_types(selected: f.object.whitelist), { include_blank: false }, class: "form-select option-select2", multiple: true %>
+  </div>
+  <div class="mb-3">
+    <%= f.label "Maximum file size per file", class: "form-label" %>
+    <%= f.number_field :max_file_size, class: "form-control", min: 0, step: 1, placeholder: "Maximum per file size"%>
+  </div>
+  <div class="mb-3">
+    <%= f.label :file_size_unit, class: "form-label" %>
+    <%= f.select :file_size_unit, options_for_select([['MB', 'megabytes'], ['KB', 'kilobytes'], ['Byte', 'bytes']], f.object.file_size_unit), {}, class: "form-control option-select2"%>
+  </div>
+
+</fieldset>
