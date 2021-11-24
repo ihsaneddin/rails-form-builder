@@ -1,77 +1,67 @@
-<fieldset class="border-0">
-  <legend>
-    Date Field
-  </legend>
-
-  <%= display_error_validations options %>
-
-  <div class="mb-3">
-    <%= f.label :begin_from, class: "form-label" %>
-    <div class="row align-items-center">
-      <div class="col">
-        <div class="form-check form-check-inline">
-          <%= f.radio_button :begin_from, "unlimited", class: "form-check-input begin-type" %>
-          <%= f.label "No Limit", class: "form-check-label" %>
-        </div>
-        <div class="form-check form-check-inline">
-          <%= f.radio_button :begin_from, "today", class: "form-check-input begin-type" %>
-          <%= f.label "Today with offset", class: "form-check-label" %>
-        </div>
-        <div class="form-check-inline">
-          <%= f.number_field :begin_from_today_days_offset, step: 1, id: "begin-from-today-days-offset", class: "form-control #{'d-none' unless options.begin_from == 'today'}", placeholder: "Input offset"%>
-        </div>
-        <div class="form-check form-check-inline">
-          <%= f.radio_button :begin_from, "date", class: "form-check-input begin-type" %>
-          <%= f.label "Specific date", class: "form-check-label" %>
-        </div>
-        <div class="form-check-inline">
-          <%= f.date_field :begin, id: "begin-date-specific", class: "form-control #{'d-none' unless options.begin_from == 'date'}", placeholder: "Select date"%>
-        </div>
-        <div class="form-check form-check-inline">
-          <%= f.radio_button :begin_from, "days_before_end", class: "form-check-input begin-type" %>
-          <%= f.label "Days before end", class: "form-check-label" %>
-        </div>
-        <div class="form-check-inline">
-          <%= f.number_field :days_before_end, step: 1, min: 1, id: "begin-days-before-end", class: "form-control #{'d-none' unless options.begin_from == 'days_before_end'}", placeholder: "Input number"%>
-        </div>
+<div class="mb-3">
+  <%= f.label :begin_from, class: "form-label" %>
+  <div class="row align-items-center">
+    <div class="col">
+      <div class="form-check form-check-inline">
+        <%= f.radio_button :begin_from, "unlimited", class: "form-check-input begin-type" %>
+        <%= f.label "No Limit", class: "form-check-label" %>
+      </div>
+      <div class="form-check form-check-inline">
+        <%= f.radio_button :begin_from, "today", class: "form-check-input begin-type" %>
+        <%= f.label "Today with offset", class: "form-check-label" %>
+      </div>
+      <div class="form-check-inline">
+        <%= f.number_field :begin_from_today_days_offset, step: 1, id: "begin-from-today-days-offset", class: "form-control #{'d-none' unless options.begin_from == 'today'}", placeholder: "Input offset"%>
+      </div>
+      <div class="form-check form-check-inline">
+        <%= f.radio_button :begin_from, "date", class: "form-check-input begin-type" %>
+        <%= f.label "Specific date", class: "form-check-label" %>
+      </div>
+      <div class="form-check-inline">
+        <%= f.date_field :begin, id: "begin-date-specific", class: "form-control #{'d-none' unless options.begin_from == 'date'}", placeholder: "Select date"%>
+      </div>
+      <div class="form-check form-check-inline">
+        <%= f.radio_button :begin_from, "days_before_end", class: "form-check-input begin-type" %>
+        <%= f.label "Days before end", class: "form-check-label" %>
+      </div>
+      <div class="form-check-inline">
+        <%= f.number_field :days_before_end, step: 1, min: 1, id: "begin-days-before-end", class: "form-control #{'d-none' unless options.begin_from == 'days_before_end'}", placeholder: "Input number"%>
       </div>
     </div>
   </div>
-  <div class="mb-3">
-    <%= f.label :end_to, class: "form-label" %>
-    <div class="row align-items-center">
-      <div class="col">
-        <div class="form-check form-check-inline">
-          <%= f.radio_button :end_to, "unlimited", class: "form-check-input end-type" %>
-          <%= f.label "No Limit", class: "form-check-label" %>
-        </div>
-        <div class="form-check form-check-inline">
-          <%= f.radio_button :end_to, "today", class: "form-check-input end-type" %>
-          <%= f.label "Today with offset", class: "form-check-label" %>
-        </div>
-        <div class="form-check-inline">
-          <%= f.number_field :end_to_today_days_offset, step: 1, id: "end-to-today-days-offset", class: "form-control #{'d-none' unless options.end_to == 'today'}", placeholder: "Input offset"%>
-        </div>
-        <div class="form-check form-check-inline">
-          <%= f.radio_button :end_to, "date", class: "form-check-input end-type" %>
-          <%= f.label "Specific date", class: "form-check-label" %>
-        </div>
-        <div class="form-check-inline">
-          <%= f.date_field :end, id: "end-date-specific", class: "form-control #{'d-none' unless options.end_to == 'date'}", placeholder: "Select date"%>
-        </div>
-        <div class="form-check form-check-inline">
-          <%= f.radio_button :end_to, "days_since_begin", class: "form-check-input end-type" %>
-          <%= f.label "Days since begin", class: "form-check-label" %>
-        </div>
-        <div class="form-check-inline">
-          <%= f.number_field :days_since_begin, step: 1, min: 1, id: "end-days-since-begin", class: "form-control #{'d-none' unless options.end_to == 'days_since_begin'}", placeholder: "Input number"%>
-        </div>
+</div>
+<div class="mb-3">
+  <%= f.label :end_to, class: "form-label" %>
+  <div class="row align-items-center">
+    <div class="col">
+      <div class="form-check form-check-inline">
+        <%= f.radio_button :end_to, "unlimited", class: "form-check-input end-type" %>
+        <%= f.label "No Limit", class: "form-check-label" %>
+      </div>
+      <div class="form-check form-check-inline">
+        <%= f.radio_button :end_to, "today", class: "form-check-input end-type" %>
+        <%= f.label "Today with offset", class: "form-check-label" %>
+      </div>
+      <div class="form-check-inline">
+        <%= f.number_field :end_to_today_days_offset, step: 1, id: "end-to-today-days-offset", class: "form-control #{'d-none' unless options.end_to == 'today'}", placeholder: "Input offset"%>
+      </div>
+      <div class="form-check form-check-inline">
+        <%= f.radio_button :end_to, "date", class: "form-check-input end-type" %>
+        <%= f.label "Specific date", class: "form-check-label" %>
+      </div>
+      <div class="form-check-inline">
+        <%= f.date_field :end, id: "end-date-specific", class: "form-control #{'d-none' unless options.end_to == 'date'}", placeholder: "Select date"%>
+      </div>
+      <div class="form-check form-check-inline">
+        <%= f.radio_button :end_to, "days_since_begin", class: "form-check-input end-type" %>
+        <%= f.label "Days since begin", class: "form-check-label" %>
+      </div>
+      <div class="form-check-inline">
+        <%= f.number_field :days_since_begin, step: 1, min: 1, id: "end-days-since-begin", class: "form-control #{'d-none' unless options.end_to == 'days_since_begin'}", placeholder: "Input number"%>
       </div>
     </div>
   </div>
-
-</fieldset>
-
+</div>
 
 <%= content_for :javascript do %>
 

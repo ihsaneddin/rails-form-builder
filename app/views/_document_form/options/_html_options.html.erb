@@ -1,0 +1,25 @@
+<div class="nested_form row bg-light mx-2 py-2 mb-3">
+  <div class="col-5">
+    <div class="row align-items-center">
+      <div class="col-1">
+        <%= f.label :name, class: "form-label" %>
+      </div>
+      <div class="col-11">
+        <%= f.text_field :name, class: "form-control", placeholder: "Name"%>
+      </div>
+    </div>
+  </div>
+  <div class="col-5">
+    <div class="row align-items-center">
+      <div class="col-1">
+        <%= f.label :value, class: "form-label" %>
+      </div>
+      <div class="col-11">
+        <%= f.text_field :value, class: "form-control", placeholder: "Value"%>
+      </div>
+    </div>
+  </div>
+  <div class="col-2 d-grid mx-auto">
+    <%= link_to_remove_association "Remove", f, class: "btn block btn-danger btn-xs", wrapper_class: "nested_form" %>
+  </div>
+</div>

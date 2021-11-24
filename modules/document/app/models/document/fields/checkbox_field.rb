@@ -9,10 +9,6 @@ module Document
         :array
       end
 
-      def attached_choices?
-        true
-      end
-
       def interpret_to(model, overrides: {})
         check_model_validity!(model)
 
@@ -36,8 +32,7 @@ module Document
 
           choices = options.choices
           return if choices.empty?
-
-          model.validates_with Document::Concerns::Models::Fields::Validators::SubsetValidator, _merge_attributes([name, { in: options.choices }, allow_blank: true])
+          model.validates_with Document::Concerns::Models::Fields::Validators::SubsetValidator, _merge_attributes([name, in: options.choices.pluck(:value) , allow_blank: true])
         end
 
     end

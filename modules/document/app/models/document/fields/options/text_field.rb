@@ -1,6 +1,6 @@
 module Document
   module Fields::Options
-    class TextField < Document::FieldOptions
+    class TextField < BaseOptions
 
       attribute :multiline, :boolean, default: false
 

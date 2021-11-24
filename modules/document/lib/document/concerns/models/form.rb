@@ -52,12 +52,13 @@ module Document
           end
 
           def set_constant model_name, model
-            Object.const_set(virtual_model_name, model)
+            unset_constant model_name if Object.const_defined?(model.name)
+            Object.const_set(model_name, model)
           end
 
-          def unset_constant model
-            if Object.const_defined?(model)
-              Object.send(:remove_const, model)
+          def unset_constant model_name
+            if Object.const_defined?(model_name)
+              Object.send(:remove_const, model_name)
             end
           end
 

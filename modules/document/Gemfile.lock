@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/ihsaneddin/activeentity
-  revision: 75337bf891662993b71846ab86b6d5a78f18369f
+  revision: a1365891c9cd9e8869c52707b7ce1e6df440f985
   specs:
     activeentity (6.1.1)
       activemodel (~> 6.0, < 7.0)
@@ -26,7 +26,6 @@ PATH
   specs:
     document (0.1.0)
       activeentity (>= 6.1.0)
-      mini_sql (>= 1.1.3)
       mongoid
       rails (~> 6.1.3, >= 6.1.3.1)
       ranked-model (~> 0.4.7)
@@ -129,7 +128,6 @@ GEM
     mini_magick (4.11.0)
     mini_mime (1.0.3)
     mini_portile2 (2.5.1)
-    mini_sql (1.1.3)
     minitest (5.14.4)
     mongo (2.17.0)
       bson (>= 4.8.2, < 5.0.0)
@@ -220,7 +218,6 @@ PLATFORMS
 DEPENDENCIES
   activeentity (>= 6.1.0)!
   document!
-  mini_sql
   mongoid
   ranked-model (~> 0.4.7)
   shrine-mongoid (~> 1.0)

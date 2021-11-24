@@ -1,0 +1,33 @@
+<fieldset class="border-0">
+  <legend>
+    <%= field.type.to_s.demodulize.underscore.humanize.titleize %>
+  </legend>
+
+  <%= display_error_validations options %>
+
+  <%= render "_document_form/options/#{field.type_key}", f: f, options: options%>
+
+  <div class="row nested_form_field mb-3">
+    <div class="col-12">
+      <%= f.label :html_options, class: "form-label" %>
+    </div>
+    <div class="col-12 collection" id="html_options>">
+      <div class="row">
+        <div class="col-12">
+          <%= f.fields_for :html_options do |ff| %>
+            <%= render "_document_form/options/html_options", f: ff%>
+          <% end %>
+        </div>
+        <div class="col-12 links">
+            <%= link_to_add_association "Add", f, :html_options,
+                                        class: "btn btn-info text-white",
+                                        partial: "_document_form/options/html_options",
+                                        render_options: {
+                                          locals: {}
+                                        } %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</fieldset>

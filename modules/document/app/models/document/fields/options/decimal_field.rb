@@ -1,6 +1,6 @@
 module Document
   module Fields::Options
-    class DecimalField < Document::FieldOptions
+    class DecimalField < BaseOptions
 
       attribute :step, :decimal, default: 0.01
 

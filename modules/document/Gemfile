@@ -15,6 +15,5 @@ gem "activeentity", ">= 6.1.0", git: 'https://github.com/ihsaneddin/activeentity
 gem 'mongoid'
 gem "shrine-mongoid", "~> 1.0"
 gem "ranked-model", "~> 0.4.7"
-gem "mini_sql"
 gem 'validates_timeliness', '~> 6.0.0.alpha1'
 gem 'support', path: "../support"

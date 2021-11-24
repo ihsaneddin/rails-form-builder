@@ -1,17 +1,26 @@
-<fieldset class="border-0">
-  <legend>
-    Multiple Select Field
-  </legend>
-
-  <%= display_error_validations options %>
-
-  <div class="mb-3">
-    <%= f.check_box :strict, class: "form-check-input" %>
-    <%= f.label " Can only select from collection", class: "form-check-label" %>
+<div class="mb-3">
+  <%= f.check_box :strict, class: "form-check-input" %>
+  <%= f.label " Can only select from collection", class: "form-check-label" %>
+</div>
+<div class="row nested_form_field mb-3">
+  <div class="col-12">
+    <%= f.label :choices, class: "form-label" %>
   </div>
-  <div class="mb-3">
-    <%= f.label "Selection", class: "form-label" %>
-    <%= f.select :choices, options_for_select(options.choices, options.choices), { include_hidden: false }, class: "form-control option-add-select2", multiple: true%>
+  <div class="col-12 collection" id="html_options>">
+    <div class="row">
+      <div class="col-12">
+        <%= f.fields_for :choices do |ff| %>
+          <%= render "_document_form/options/choices", f: ff%>
+        <% end %>
+      </div>
+      <div class="col-12 links">
+          <%= link_to_add_association "Add Choice", f, :choices,
+                                      class: "btn btn-info text-white",
+                                      partial: "_document_form/options/choices",
+                                      render_options: {
+                                        locals: {}
+                                      } %>
+      </div>
+    </div>
   </div>
-
-</fieldset>
+</div>

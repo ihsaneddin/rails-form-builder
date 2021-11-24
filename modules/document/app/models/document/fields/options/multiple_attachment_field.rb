@@ -1,6 +1,6 @@
 module Document
   module Fields::Options
-    class MultipleAttachmentField < Document::FieldOptions
+    class MultipleAttachmentField < BaseOptions
       attribute :whitelist, :string, array: true, default: []
       attribute :max_file_size, :integer, default: 10
       attribute :file_size_unit, :string, default: "megabytes"

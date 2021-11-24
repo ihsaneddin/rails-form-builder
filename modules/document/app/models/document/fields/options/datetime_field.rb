@@ -1,6 +1,6 @@
 module Document
   module Fields::Options
-    class DatetimeField < Document::FieldOptions
+    class DatetimeField < BaseOptions
 
       attribute :begin_from, :string, default: "unlimited"
       enum begin_from: {

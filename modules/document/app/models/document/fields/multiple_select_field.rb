@@ -33,7 +33,7 @@ module Document
         def interpret_extra_to(model, accessibility, overrides = {})
           super
           return if accessibility != :read_and_write || !options.strict
-          model.validates_with Document::Concerns::Models::Fields::Validators::SubsetValidator, _merge_attributes([name, { in: options.choices }, allow_blank: true])
+          model.validates_with Document::Concerns::Models::Fields::Validators::SubsetValidator, _merge_attributes([name, in: options.choices.pluck(:value) , allow_blank: true])
         end
 
     end

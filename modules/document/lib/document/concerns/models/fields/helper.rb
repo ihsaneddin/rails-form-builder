@@ -22,7 +22,7 @@ module Document
           end
 
           def options_configurable?
-            options.is_a?(FieldOptions) && options.attributes.any?
+            options.is_a?(FieldOptions) && (options.attributes.any? || options._reflections.any?)
           end
 
           def validations_configurable?

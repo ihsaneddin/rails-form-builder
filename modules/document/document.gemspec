@@ -25,7 +25,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency "activeentity", ">= 6.1.0"
   spec.add_dependency 'mongoid'
   spec.add_dependency "shrine-mongoid", "~> 1.0"
-  spec.add_dependency "mini_sql", ">= 1.1.3"
   spec.add_dependency "ranked-model", "~> 0.4.7"
   spec.add_dependency 'validates_timeliness', '~> 6.0.0.alpha1'
   spec.add_dependency 'support'

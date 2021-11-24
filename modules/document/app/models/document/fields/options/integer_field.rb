@@ -1,6 +1,6 @@
 module Document
   module Fields::Options
-    class IntegerField < Document::FieldOptions
+    class IntegerField < BaseOptions
 
       attribute :step, :integer, default: 0
 
