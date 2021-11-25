@@ -7,10 +7,3 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 
-
-Document::FormRow.delete_all
-
-form = Form.first
-form_virtual_model = form.virtual_model
-
-form_sl_class = form.sl_class
