@@ -23,6 +23,7 @@ module Document
 
         model.nested_models[name] = nested_model
         model.embeds_one name, class_name: "#{nested_model.name}", store_as: name, validate: true
+        nested_model.embedded_in model.name.downcase.to_sym, class_name: model.name
         model.accepts_nested_attributes_for name, reject_if: :all_blank
         model.attr_readonly name if accessibility == :readonly
         interpret_validations_to model, accessibility, overrides
