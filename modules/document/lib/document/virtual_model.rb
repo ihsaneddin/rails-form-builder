@@ -1,9 +1,10 @@
 module Document
   class VirtualModel
 
-    include Mongoid::Document
-    include Mongoid::Attributes::Dynamic
-    include Document::Concerns::Models::ActiveStorageBridge::Attached::Macros
+    # include Mongoid::Document
+    # include Mongoid::Attributes::Dynamic
+    # include Mongoid::Timestamps
+    # include Document::Concerns::Models::ActiveStorageBridge::Attached::Macros
 
     # Hack
     ARRAY_WITHOUT_BLANK_PATTERN = "!ruby/array:ArrayWithoutBlank"
@@ -31,7 +32,7 @@ module Document
       end
 
       def name
-        @_name ||= "Form"
+        @_name
       end
 
       def name=(value)
@@ -41,18 +42,37 @@ module Document
         @_name = value
       end
 
-      def build(name: nil, collection: nil)
-        if collection
-          self.store_in collection: collection
-        end
-        klass = Class.new(self)
-        klass.name = name
-        klass
-      end
-
       def nested_models
         @nested_models ||= {}
       end
+
+      def build(name: nil, collection: nil)
+        # if collection
+        #   self.store_in collection: collection
+        # end
+        # self.name = name
+        # klass = Class.new(self)
+        # klass.name = name
+        # klass
+        klass = Class.new(self)
+        klass.name = name
+        klass = setup_model(klass)
+        if collection
+          klass.store_in collection: collection
+        end
+        klass
+      end
+
+      protected
+
+      def setup_model klass
+        klass.include Mongoid::Document
+        klass.include Mongoid::Attributes::Dynamic
+        klass.include Mongoid::Timestamps
+        klass.include Document::Concerns::Models::ActiveStorageBridge::Attached::Macros
+        klass
+      end
+
 
     end
 

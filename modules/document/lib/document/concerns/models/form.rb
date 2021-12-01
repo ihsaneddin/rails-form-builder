@@ -46,7 +46,7 @@ module Document
           end
 
           def virtual_model model_name
-            model = Document.virtual_model_class.build name: model_name, collection: "form-#{id}"
+            model = Document.virtual_model_class.build name: model_name, collection: "#{self.class.name.demodulize.downcase}-#{id}"
             model.field :form_id, type: Integer
             model
           end

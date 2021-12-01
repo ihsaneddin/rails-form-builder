@@ -17,6 +17,8 @@ class Forms::DataController < Forms::ApplicationController
     else
       render :new
     end
+    rescue => e
+      debugger
   end
 
   def show

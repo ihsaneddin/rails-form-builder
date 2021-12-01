@@ -22,7 +22,7 @@ module Document
           choices = options.choices
           return if choices.empty?
 
-          model.validates name, inclusion: { in: choices }, allow_blank: true
+          model.validates name, inclusion: { in: choices.pluck(:value) }, allow_blank: true
         end
 
     end

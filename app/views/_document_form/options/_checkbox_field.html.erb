@@ -1,22 +1,22 @@
 <div class="row nested_form_field mb-3">
-    <div class="col-12">
-      <%= f.label :choices, class: "form-label" %>
-    </div>
-    <div class="col-12 collection" id="html_options>">
-      <div class="row">
-        <div class="col-12">
-          <%= f.fields_for :choices do |ff| %>
-            <%= render "_document_form/options/choices", f: ff%>
-          <% end %>
-        </div>
-        <div class="col-12 links">
-            <%= link_to_add_association "Add Choice", f, :choices,
-                                        class: "btn btn-info text-white",
-                                        partial: "_document_form/options/choices",
-                                        render_options: {
-                                          locals: {}
-                                        } %>
-        </div>
+  <div class="col-12">
+    <%= f.label :choices, class: "form-label" %>
+  </div>
+  <div class="col-12 collection" id="html_options>">
+    <div class="row">
+      <div class="col-12">
+        <%= f.fields_for :choices do |ff| %>
+          <%= render "_document_form/options/choices", f: ff%>
+        <% end %>
+      </div>
+      <div class="col-12 links">
+          <%= link_to_add_association "Add Choice", f, :choices,
+                                      class: "btn btn-info text-white",
+                                      partial: "_document_form/options/choices",
+                                      render_options: {
+                                        locals: {}
+                                      } %>
       </div>
     </div>
   </div>
+</div>
