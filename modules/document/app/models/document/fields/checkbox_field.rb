@@ -17,11 +17,16 @@ module Document
 
         model.field name, type: Array, default: []
         model.attr_readonly name if accessibility == :readonly
+        model.add_as_searchable_field field.name if field.options.try(:searchable)
 
         interpret_validations_to model, accessibility, overrides
         interpret_extra_to model, accessibility, overrides
 
         model
+      end
+
+      def has_choices_option?
+        true
       end
 
       protected

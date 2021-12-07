@@ -6,6 +6,7 @@ require 'support/optionable/models/concerns/optionable'
 
 require "support/version"
 require "support/engine"
+require 'shrine'
 
 module Support
   extend Support::Configuration

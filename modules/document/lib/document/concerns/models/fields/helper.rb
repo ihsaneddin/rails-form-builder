@@ -32,6 +32,15 @@ module Document
           def attached_nested_form?
             false
           end
+
+          def range_field?
+            false
+          end
+
+          def file_field?
+            false
+          end
+
         end
       end
     end

@@ -11,6 +11,18 @@
   </div>
   <div class="col-12">
     <div class="card">
+      <div class="card-header">
+        <%= form_tag form_data_path(@form), method: :get do %>
+        <div class="d-flex flex-row justify-content-end">
+          <div class="flex-column">
+            <input name="search" value="<%= params[:search] %>" type="search" class="form-control" />
+          </div>
+          <div class="flex-column">
+            <%= submit_tag "Search", class: "ms-2 btn btn-primary" %>
+          </div>
+        </div>
+        <% end %>
+      </div>
       <div class="card-body">
         <div class="row">
           <div class="col">
@@ -39,6 +51,11 @@
                 <% end %>
               </tbody>
             </table>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col d-flex justify-content-center">
+            <%= paginate @data, theme: 'bootstrap-5' %>
           </div>
         </div>
       </div>

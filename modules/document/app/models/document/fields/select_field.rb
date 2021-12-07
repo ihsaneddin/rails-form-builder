@@ -9,8 +9,8 @@ module Document
         :string
       end
 
-      def attached_choices?
-        true
+      def has_choices_option?
+        false
       end
 
       protected

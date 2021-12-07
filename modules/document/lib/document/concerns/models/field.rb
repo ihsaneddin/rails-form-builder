@@ -50,6 +50,10 @@ module Document
           nil
         end
 
+        def has_choices_option?
+          false
+        end
+
         def interpret_to(model, overrides: {})
           check_model_validity!(model)
 
@@ -60,6 +64,7 @@ module Document
           model.field name, type: stored_type, default: default_value
 
           model.attr_readonly name if accessibility == :readonly
+          model.add_as_searchable_field self.name if self.options.try(:searchable)
 
           interpret_validations_to model, accessibility, overrides
           interpret_extra_to model, accessibility, overrides

@@ -6,7 +6,7 @@ module Document
 
         included do
           after_destroy do
-            unset_constant
+            unset_constant virtual_model_name
           end
         end
 
@@ -27,6 +27,9 @@ module Document
           fields_scope.call(fields).each do |f|
             f.interpret_to model, overrides: global_overrides.merge(overrides.fetch(f.name, {}))
           end
+          if self.is_a?(::Document::Form)
+            model.search_in model.get_searchable_fields
+          end
           model
         end
 
@@ -35,6 +38,9 @@ module Document
           global_overrides = overrides.fetch(:_global, {})
           fields_scope.call(fields).each do |f|
             f.interpret_to model, overrides: global_overrides.merge(overrides.fetch(f.name, {}))
+          end
+          if self.is_a?(::Document::Form)
+            model.search_in model.get_searchable_fields
           end
           model
         end

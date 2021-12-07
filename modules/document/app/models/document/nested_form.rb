@@ -19,10 +19,10 @@ module Document
           if vp.multiple_nested_form?
             field.nested_form.virtual_fields = []
             vp.value_for_preview.each do |nested_instance|
-              field.nested_form.virtual_fields << virtual_fields(nested_instance, field.nested_form.fields)
+              field.nested_form.virtual_fields << get_virtual_fields(nested_instance, field.nested_form.fields)
             end
           else
-            field.nested_form.virtual_fields = virtual_fields vp.value_for_preview, field.nested_form.fields
+            field.nested_form.virtual_fields = get_virtual_fields(vp.value_for_preview, field.nested_form.fields)
           end
         end
         vp

@@ -5,6 +5,9 @@ module Document
       embeds_many :html_options, class_name: "Document::Fields::Options::BaseOptions::HtmlOptions"
       accepts_nested_attributes_for :html_options, reject_if: :all_blank, allow_destroy: true
 
+      attribute :searchable, :boolean, default: false
+      #Ex:- :default =>''
+
       class HtmlOptions < Document::FieldOptions
 
         attribute :name, :string, default: ""

@@ -21,11 +21,16 @@ module Document
 
         model.embeds_one name, class_name: nested_model.name, validate: true
         model.accepts_nested_attributes_for name, reject_if: :all_blank
+        model.add_as_searchable_field field.name if field.options.try(:searchable)
 
         interpret_validations_to model, accessibility, overrides
         interpret_extra_to model, accessibility, overrides
 
         model
+      end
+
+      def range_field?
+        true
       end
 
     end

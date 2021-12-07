@@ -7,6 +7,18 @@
 
   <%= render "_document_form/options/#{field.type_key}", f: f, options: options%>
 
+  <div class="row mb-3">
+    <div class="col">
+      <%= f.check_box :searchable, class: 'form-check-input' %>
+      <%= f.label :searchable, class: "form-label" %>
+      <% if field.hint %>
+      <span class="form-text">
+        <%= field.hint %>
+      </span>
+      <% end %>
+    </div>
+  </div>
+
   <div class="row nested_form_field mb-3">
     <div class="col-12">
       <%= f.label :html_options, class: "form-label" %>

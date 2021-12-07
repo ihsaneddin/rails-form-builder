@@ -3,7 +3,12 @@ class Forms::DataController < Forms::ApplicationController
   before_action :data, only: [:show, :edit, :update, :destroy]
 
   def index
-    @data = model.all
+    if params[:search].present?
+      @data = model.search(params[:search])
+    else
+      @data = model.all
+    end
+    @data = @data.page(params[:page]).per(1)
   end
 
   def new

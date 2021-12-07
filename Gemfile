@@ -70,3 +70,7 @@ gem 'support', path: 'modules/support'
 gem "activeentity", ">= 6.1.0", git: 'https://github.com/ihsaneddin/activeentity'
 
 gem "ffi", "~> 1.15"
+
+gem 'kaminari'
+gem 'kaminari-mongoid'
+gem 'bootstrap5-kaminari-views'

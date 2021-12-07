@@ -28,7 +28,6 @@ module Document
         model.attr_readonly name if accessibility == :readonly
         interpret_validations_to model, accessibility, overrides
         interpret_extra_to model, accessibility, overrides
-
         model
       end
 

@@ -6,6 +6,14 @@ GIT
       activemodel (~> 6.0, < 7.0)
       activesupport (~> 6.0, < 7.0)
 
+GIT
+  remote: https://github.com/mongoid/mongoid_search.git
+  revision: 4a8a528ec8e436ff9c86b8c18948b4785099743c
+  specs:
+    mongoid_search (0.4.0)
+      fast-stemmer (~> 1.0.0)
+      mongoid (>= 5.0.0)
+
 PATH
   remote: ../support
   specs:
@@ -20,6 +28,7 @@ PATH
       roo (~> 2.8.0)
       roo-xls
       shrine (~> 3.3.0)
+      shrine-mongoid (~> 1.0)
 
 PATH
   remote: .
@@ -27,9 +36,9 @@ PATH
     document (0.1.0)
       activeentity (>= 6.1.0)
       mongoid
+      mongoid_search
       rails (~> 6.1.3, >= 6.1.3.1)
       ranked-model (~> 0.4.7)
-      shrine-mongoid (~> 1.0)
       support
       validates_timeliness (~> 6.0.0.alpha1)
 
@@ -109,6 +118,7 @@ GEM
     down (5.2.1)
       addressable (~> 2.5)
     erubi (1.10.0)
+    fast-stemmer (1.0.2)
     fastimage (2.2.3)
     ffi (1.15.0)
     globalid (0.4.2)
@@ -219,8 +229,8 @@ DEPENDENCIES
   activeentity (>= 6.1.0)!
   document!
   mongoid
+  mongoid_search!
   ranked-model (~> 0.4.7)
-  shrine-mongoid (~> 1.0)
   sqlite3
   support!
   validates_timeliness (~> 6.0.0.alpha1)

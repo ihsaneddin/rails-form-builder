@@ -29,7 +29,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency "marcel", "~> 1.0" # mime-type determination
   spec.add_dependency "fastimage", "~> 2.2.3" # mime-type determination
   spec.add_dependency "image_processing", "~> 1.12" # processing wrapper for minimagick/vips
-  
+  spec.add_dependency "shrine-mongoid", "~> 1.0"
+
   spec.add_dependency "roo", "~> 2.8.0"
   spec.add_dependency 'roo-xls'
   spec.add_dependency 'activerecord-import'
