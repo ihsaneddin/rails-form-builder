@@ -56,3 +56,23 @@ document.addEventListener("turbolinks:load", () => {
     })
 
 })
+
+import TurbolinksAdapter from 'vue-turbolinks'
+import Vue from 'vue/dist/vue.esm'
+import DocumentFormSearch from '../components/document.form.search.vue'
+import VueTypeaheadBootstrap from 'vue-typeahead-bootstrap';
+import 'bootstrap/scss/bootstrap.scss';
+
+// Global registration
+Vue.component('vue-typeahead-bootstrap', VueTypeaheadBootstrap)
+
+Vue.use(TurbolinksAdapter)
+
+Vue.component('document-form-search', DocumentFormSearch)
+document.addEventListener('turbolinks:load', () => {
+    const app = new Vue({
+        el: '[data-behaviour="vue"]'
+    })
+})
+
+window.Vue = Vue

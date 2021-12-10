@@ -12,16 +12,7 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header">
-        <%= form_tag form_data_path(@form), method: :get do %>
-        <div class="d-flex flex-row justify-content-end">
-          <div class="flex-column">
-            <input name="search" value="<%= params[:search] %>" type="search" class="form-control" />
-          </div>
-          <div class="flex-column">
-            <%= submit_tag "Search", class: "ms-2 btn btn-primary" %>
-          </div>
-        </div>
-        <% end %>
+        <%= render "_document_form/search/form", url: form_data_path(@form), criteria_template: @criteria_builder.clauses %>
       </div>
       <div class="card-body">
         <div class="row">

@@ -70,6 +70,7 @@ module Document
         klass.include Mongoid::Timestamps
         klass.include Document::Concerns::Models::ActiveStorageBridge::Attached::Macros
         klass.include Document::Concerns::VirtualModels::GeneralSearch
+        klass.include Document::Concerns::VirtualModels::AdvancedSearch
         klass
       end
 

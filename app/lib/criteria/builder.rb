@@ -16,22 +16,23 @@ module Criteria
         form.sections.each do |section|
           fields = fields + section.fields
         end
-        clauses = build_hash_of_clause(fields)
+        clauses = build_clauses(fields)
         self.new(form: form, virtual_model: virtual_model, clauses: clauses)
       end
 
-      def build_hash_of_clause fields, namespace = nil
+      def build_clauses fields, namespace = nil
         fields.reject{|f| f.file_field? }.each_with_object([]) do |field, collection|
+          nested = namespace.to_s.split(".").map(&:humanize).map(&:titleize).join("/")
           name = namespace ? "#{namespace}.#{field.name}" : field.name
           if field.attached_nested_form?
-            collection + build_hash_of_clause(field.nested_form.fields, name)
+            collection.push(*build_clauses(field.nested_form.fields, name))
           else
             if field.range_field?
-              from = Clause.new(comparison_operator: :eq, type: field.stored_type, field: "#{name}.begin")
-              to = Clause.new(comparison_operator: :eq, type: field.stored_type, field: "#{name}.end")
+              from = Clause.new(comparison_operator: :eq, type: field.stored_type, field: "#{name}.begin", label: field.label, namespace: nested)
+              to = Clause.new(comparison_operator: :eq, type: field.stored_type, field: "#{name}.end", label: field.label, namespace: nested)
               collection + [from, to]
             else
-              hash = {comparison_operator: :eq, type: field.stored_type, field: name }
+              hash = {comparison_operator: :eq, type: field.stored_type, field: name, label: field.label, namespace: nested}
               if field.has_choices_option?
                 hash[:choices] = field.options.choices
               end

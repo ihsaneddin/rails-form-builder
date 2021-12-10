@@ -1,12 +1,21 @@
 class Forms::DataController < Forms::ApplicationController
   before_action :set_form_with_eager_load_fields_and_sections, except: [:show]
   before_action :data, only: [:show, :edit, :update, :destroy]
+  before_action :criteria_builder, only: [:index]
 
   def index
     if params[:search].present?
-      @data = model.search(params[:search])
+      @data = model.lazy_search(params[:search])
     else
-      @data = model.all
+      if params[:heavy_search].present?
+        @data = model.search(params[:heavy_search])
+      else
+        if params[:advanced_search].present?
+          @data = model.run_advanced_search form: @form, array_of_clause_hashes: advanced_search_params
+        else
+          @data = model.all
+        end
+      end
     end
     @data = @data.page(params[:page]).per(1)
   end
@@ -57,6 +66,14 @@ class Forms::DataController < Forms::ApplicationController
 
     def data
       @data = model.find(params[:id])
+    end
+
+    def criteria_builder
+      @criteria_builder ||= model.build_criteria_template(@form)
+    end
+
+    def advanced_search_params
+      (params.permit![:advanced_search] || []).map(&:to_h)
     end
 
 end
