@@ -12,6 +12,8 @@ class Forms::DataController < Forms::ApplicationController
       else
         if params[:advanced_search].present?
           @data = model.run_advanced_search form: @form, array_of_clause_hashes: advanced_search_params
+        elsif params[:simple_advanced_search].present?
+          @data = model.run_advanced_search form: @form, array_of_clause_hashes: simple_advanced_search_params
         else
           @data = model.all
         end
@@ -74,6 +76,10 @@ class Forms::DataController < Forms::ApplicationController
 
     def advanced_search_params
       (params.permit![:advanced_search] || []).map(&:to_h)
+    end
+
+    def simple_advanced_search_params
+      (params.permit![:simple_advanced_search] || []).map(&:to_h)
     end
 
 end

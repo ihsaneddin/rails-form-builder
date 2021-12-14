@@ -8,6 +8,9 @@
         <button class="nav-link" :class="display.heavy && 'active'" id="heavy-tab" data-bs-toggle="tab" data-bs-target="#heavy" type="button" role="tab" aria-controls="heavy" aria-selected="false">Heavy</button>
       </li>
       <li class="nav-item">
+        <button class="nav-link" :class="display.simple_advanced && 'active'" id="simple-advanced-tab" data-bs-toggle="tab" data-bs-target="#simple-advanced" type="button" role="tab" aria-controls="simple-advanced" aria-selected="false">Simple Advanced</button>
+      </li>
+      <li class="nav-item">
         <button class="nav-link" :class="display.advanced && 'active'" id="advanced-tab" data-bs-toggle="tab" data-bs-target="#advanced" type="button" role="tab" aria-controls="advanced" aria-selected="false">Advanced</button>
       </li>
     </ul>
@@ -37,6 +40,17 @@
           </div>
         </form>
       </div>
+      <div class="tab-pane fade" :class="display.simple_advanced && 'active show'" id="simple-advanced" role="tabpanel" aria-labelledby="simple-advanced-tab">
+        <form :action="simple_advanced_search_url" accept-charset="UTF-8" method="get" class="mt-3" ref="simpleadvancedSearch">
+          <simple-criteria @remove-clause="removeSimpleCriteria(i)" :criteria-template="criteriaTemplate" v-model="simple_clauses[i]" v-for="(clause, i) in simple_clauses" :key="i" class="mb-3" />
+          <div class="d-flex flex-row justify-content-end mt-5">
+            <div class="flex-column-reverse col-1 d-grid gap-2">
+              <button @click="addNewSimpleCriteria" type="button" class="btn text-light btn-secondary">Add More Field</button>
+              <button @click="submitSimpleAdvancedSearch" type="button" class="btn text-light btn-success">Submit</button>
+            </div>
+          </div>
+        </form>
+      </div>
       <div class="tab-pane fade" :class="display.advanced && 'active show'" id="advanced" role="tabpanel" aria-labelledby="advanced-tab">
         <form :action="advanced_search_url" accept-charset="UTF-8" method="get" class="mt-3" ref="advancedSearch">
           <criteria @remove-clause="removeCriteria(i)" :criteria-template="criteriaTemplate" v-model="clauses[i]" v-for="(clause, i) in clauses" :key="i" class="mb-3" />
@@ -54,11 +68,13 @@
 
 <script>
 import Criteria from "./criteria"
+import SimpleCriteria from "./simple.criteria"
 import Qs from "qs"
 
 export default {
   components:{
-    Criteria
+    Criteria,
+    SimpleCriteria
   },
   props: {
     url: {
@@ -75,11 +91,13 @@ export default {
   data: function () {
     return {
       clauses: this.params.advanced_search || [],
+      simple_clauses: this.params.simple_advanced_search || [],
       form_url: this.url,
       show: {
         general: false,
         heavy: false,
         advanced: false,
+        simple_advanced: false,
       }
     }
   },
@@ -90,11 +108,26 @@ export default {
     hit(event){
       window.console.log(event)
     },
+    addNewSimpleCriteria(){
+      this.simple_clauses.push({ field: "", comparison_operator: "", logical_operator: ""})
+    },
+    removeSimpleCriteria(i){
+      this.simple_clauses.splice(i, 1)
+    },
     addNewCriteria(){
       this.clauses.push({ field: "", comparison_operator: "", logical_operator: ""})
     },
     removeCriteria(i){
       this.clauses.splice(i, 1)
+    },
+    submitSimpleAdvancedSearch(){
+      const simple_advanced_search = { simple_advanced_search: this.simple_clauses.map(c => ({field: c.field, values: c.values, comparison_operator: c.comparison_operator, logical_operator: c.logical_operator})) }
+      const encoded_search_url = Qs.stringify(simple_advanced_search, {
+        arrayFormat: "brackets",
+        encode: false
+      });
+      this.form_url = `${this.url}?${encoded_search_url}`
+      window.location = this.form_url
     },
     submitAdvancedSearch(){
       const advanced_search = { advanced_search: this.clauses.map(c => ({field: c.field, values: c.values, comparison_operator: c.comparison_operator, logical_operator: c.logical_operator})) }
@@ -117,9 +150,23 @@ export default {
 
     advanced_search_url: function(){
       return this.form_url
+    },
+    simple_advanced_search_url: function(){
+      return this.form_url
     }
   },
   created(){
+    if(!this.simple_clauses.length){
+      this.addNewSimpleCriteria()
+    }else{
+      this.simple_clauses = this.simple_clauses.map(c => {
+        const template = this.criteriaTemplate.find(ct => ct.field === c.field)
+        if(template){
+          c = Object.assign({}, template, {comparison_operator: c.comparison_operator, logical_operator: c.logical_operator, values: c.values})
+        }
+        return c
+      })
+    }
     if(!this.clauses.length){
       this.addNewCriteria()
     }else{
@@ -140,7 +187,10 @@ export default {
     }
     else if(params.advanced_search){
       this.toggleShow('advanced')
-    }else{
+    }else if(params.simple_advanced_search){
+      this.toggleShow('simple_advanced')
+    }
+    else{
       this.toggleShow('advanced')
     }
   }
