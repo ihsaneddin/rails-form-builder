@@ -121,7 +121,7 @@ export default {
       this.clauses.splice(i, 1)
     },
     submitSimpleAdvancedSearch(){
-      const simple_advanced_search = { simple_advanced_search: this.simple_clauses.map(c => ({field: c.field, values: c.values, comparison_operator: c.comparison_operator, logical_operator: c.logical_operator})) }
+      const simple_advanced_search = { simple_advanced_search: this.simple_clauses.map(c => ({type: c.type, field: c.field, values: c.values, comparison_operator: c.comparison_operator, logical_operator: c.logical_operator})) }
       const encoded_search_url = Qs.stringify(simple_advanced_search, {
         arrayFormat: "brackets",
         encode: false
@@ -130,7 +130,7 @@ export default {
       window.location = this.form_url
     },
     submitAdvancedSearch(){
-      const advanced_search = { advanced_search: this.clauses.map(c => ({field: c.field, values: c.values, comparison_operator: c.comparison_operator, logical_operator: c.logical_operator})) }
+      const advanced_search = { advanced_search: this.clauses.map(c => ({type: c.type, field: c.field, values: c.values, comparison_operator: c.comparison_operator, logical_operator: c.logical_operator})) }
       const encoded_search_url = Qs.stringify(advanced_search, {
         arrayFormat: "brackets",
         encode: false
@@ -191,7 +191,7 @@ export default {
       this.toggleShow('simple_advanced')
     }
     else{
-      this.toggleShow('advanced')
+      this.toggleShow('general')
     }
   }
 }

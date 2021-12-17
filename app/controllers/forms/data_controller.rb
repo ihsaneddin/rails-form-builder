@@ -11,15 +11,17 @@ class Forms::DataController < Forms::ApplicationController
         @data = model.search(params[:heavy_search])
       else
         if params[:advanced_search].present?
-          @data = model.run_advanced_search form: @form, array_of_clause_hashes: advanced_search_params
+          @data = model.run_advanced_search advanced_search_params
         elsif params[:simple_advanced_search].present?
-          @data = model.run_advanced_search form: @form, array_of_clause_hashes: simple_advanced_search_params
+          @data = model.run_advanced_search simple_advanced_search_params
         else
           @data = model.all
         end
       end
     end
     @data = @data.page(params[:page]).per(1)
+  rescue => e
+    debugger
   end
 
   def new

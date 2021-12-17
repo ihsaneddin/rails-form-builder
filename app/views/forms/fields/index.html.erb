@@ -15,7 +15,8 @@
                   <th scope="col" width="20%">Label</th>
                   <th scope="col" width="20%">Type</th>
                   <th scope="col" width="10%">Section</th>
-                  <th scope="col" width="10%">Accessibility</th>
+                  <th scope="col" width="5%">Order</th>
+                  <th scope="col" width="5%">Accessibility</th>
                   <th scope="col" width="20%"></th>
                 </tr>
               </thead>
@@ -26,6 +27,7 @@
                     <td><%= field.label %></td>
                     <td><%= field.class.model_name.human %></td>
                     <td><%= field.section&.title %></td>
+                    <td><%= field.position %></td>
                     <td><%= Document::Field.human_enum_value(:accessibility, field.accessibility) %></td>
                     <td>
                       <% if field.attached_nested_form? %>

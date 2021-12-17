@@ -3,9 +3,22 @@ module Document
     module VirtualModels
       module AdvancedSearch
 
-        class Clause
+        class Clause < Document::FieldOptions
 
-          attr_accessor :comparison_operator, :type, :field, :values, :choices, :logical_operator, :casted_hash, :label, :placeholder, :namespace
+          attribute :type, :string
+          attribute :comparison_operator, :string
+          attribute :field, :string
+          attribute :namespace, :string
+          attribute :label, :string
+          attribute :placeholder, :string
+          attribute :logical_operator, :string
+          attribute :logical_operators, :string, array: true
+          attribute :comparison_operators, :string, array: true
+
+          validates_presence_of :type, :field
+
+          embeds_many :choices, class_name: "Document::Concerns::VirtualModels::AdvancedSearch::Clause::Choice"
+          accepts_nested_attributes_for :choices, reject_if: :all_blank, allow_destroy: true
 
           DATA_TYPES = {
             :integer => Integer,
@@ -32,8 +45,8 @@ module Document
             ilike: { symbol: "$eq", name: "Ilike", only: [:string] },
             gt: { symbol: "$gt", name: "Greater Than", only: [:integer, :big_decimal, :float, :time, :date, :date_time] },
             gte: { symbol: "$gt", name: "Greater Than or Equal", only: [:integer, :big_decimal, :float, :time, :date, :date_time]},
-            lt: { symbol: "$lt", name: "Less Than", only: [:integer, :big_decimal, :float, :time]},
-            lte: { symbol: "$lt", name: "Less Than or Equal", only: [:integer, :big_decimal, :float, :time]},
+            lt: { symbol: "$lt", name: "Less Than", only: [:integer, :big_decimal, :float, :time, :date, :date_time]},
+            lte: { symbol: "$lt", name: "Less Than or Equal", only: [:integer, :big_decimal, :float, :time, :date, :date_time]},
             in: { symbol: "$in", name: "Inclusion" },
             nin: { symbol: "$nin", name: "Exclusion"},
             ne: { symbol: "$ne", name: "Not Equal"},
@@ -44,21 +57,11 @@ module Document
             or: { symbol: "$or", name: "Or" },
           }
 
-          attr_accessor :logical_operators, :comparison_operators
-
-          def initialize values: nil, type: :string, field:, comparison_operator: :eq,logical_operator: nil, choices: nil, placeholder: nil, label: nil, namespace: nil
-            self.values = values
-            self.type = type.to_sym
-            self.field = field
-            self.comparison_operator = comparison_operator.to_sym
-            self.logical_operator = logical_operator.try(:to_sym)
-            self.choices = choices
-            self.label = label
-            self.placeholder = placeholder
-            self.namespace = namespace
-            self.logical_operators = LOGICAL_OPERATORS
-            self.comparison_operators = COMPARISON_OPERATORS.select{|k,v| v[:only] ? v[:only].include?(self.type) : v }
-            cast_clause!
+          after_initialize do
+            self.logical_operators ||= LOGICAL_OPERATORS
+            if(self.type)
+              self.comparison_operators ||= COMPARISON_OPERATORS.select{|k,v| v[:only] ? v[:only].include?(self.type) : v }
+            end
           end
 
           def data_type
@@ -77,6 +80,7 @@ module Document
           end
 
           def to_criteria
+            cast_clause!
             if verified?
               if [:ilike, :like].include?(comparison_operator)
                 val = comparison_operator == :like ? /#{values}/ : /#{values}/i
@@ -92,7 +96,12 @@ module Document
           end
 
           def verified?
-            comparison_operators.dig(self.comparison_operator.to_sym)
+            comparison_operators.dig(self.comparison_operator.to_sym) && valid?
+          end
+
+          class Choice < Document::FieldOptions
+            attribute :label, :string
+            attribute :value, :string
           end
 
         end

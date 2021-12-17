@@ -12,11 +12,12 @@ module Document
         module ClassMethods
 
           def build_criteria_template form
-            Builder.build(form: form, virtual_model: self )
+            Builder.build(form)
           end
 
-          def run_advanced_search form:, array_of_clause_hashes: []
-            Query.build(form: form, virtual_model: self, array_of_clause_hashes: array_of_clause_hashes).run
+          def run_advanced_search clauses
+
+            Query.build(virtual_model: self, clauses: clauses).run
           end
 
         end

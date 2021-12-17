@@ -3,33 +3,32 @@ module Document
     module VirtualModels
       module AdvancedSearch
 
-        class Builder
+        class Builder < Document::FieldOptions
 
-          attr_accessor :clauses, :form, :virtual_model
-
-          def initialize clauses: [], form:, virtual_model: nil
-            self.form = form
-            self.virtual_model = virtual_model || form.to_virtual_model
-            self.clauses = clauses
-          end
+          attribute :form_id, :integer
+          embeds_many :clauses, class_name: "::Document::Concerns::VirtualModels::AdvancedSearch::Clause"
 
           class << self
 
-            def build form:, virtual_model: nil
+            def build form
               fields = []
               form.sections.each do |section|
                 fields = fields + section.fields
               end
-              clauses = build_clauses(fields)
-              self.new(form: form, virtual_model: virtual_model, clauses: clauses)
+              instance = self.new(form_id: form.id)
+              clauses = clauses_template(fields)
+              clauses.each do |clause|
+                instance.clauses << clause
+              end
+              instance
             end
 
-            def build_clauses fields, namespace = nil
+            def clauses_template fields, namespace= nil
               fields.reject{|f| f.file_field? }.each_with_object([]) do |field, collection|
                 nested = namespace.to_s.split(".").map(&:humanize).map(&:titleize).join("/")
                 name = namespace ? "#{namespace}.#{field.name}" : field.name
                 if field.attached_nested_form?
-                  collection.push(*build_clauses(field.nested_form.fields, name))
+                  collection.push(*clauses_template(field.nested_form.fields, name))
                 else
                   if field.range_field?
                     from = Clause.new(comparison_operator: :eq, type: field.stored_type, field: "#{name}.begin", label: field.label, namespace: nested)
@@ -38,7 +37,7 @@ module Document
                   else
                     hash = {comparison_operator: :eq, type: field.stored_type, field: name, label: field.label, namespace: nested}
                     if field.has_choices_option?
-                      hash[:choices] = field.options.choices
+                      hash[:choices_attributes] = field.options.choices.map{|choice| {label: choice.label, value: choice.value} }
                     end
                     clause = Clause.new hash
                     collection << clause

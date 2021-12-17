@@ -10,10 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_22_150308) do
+ActiveRecord::Schema.define(version: 2021_12_17_063732) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "configurations", force: :cascade do |t|
+    t.text "data"
+    t.string "name"
+    t.string "type"
+    t.string "context_type"
+    t.bigint "context_id"
+    t.string "configurable_type"
+    t.bigint "configurable_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["configurable_type", "configurable_id"], name: "index_configurations_on_configurable"
+    t.index ["context_type", "context_id"], name: "index_configurations_on_context"
+  end
 
   create_table "document_field_groups", force: :cascade do |t|
     t.string "name", default: ""
