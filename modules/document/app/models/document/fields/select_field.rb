@@ -10,7 +10,7 @@ module Document
       end
 
       def has_choices_option?
-        false
+        true
       end
 
       protected

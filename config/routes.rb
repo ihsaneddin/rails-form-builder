@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       resource :preview, only: %i[show create]
       resource :load, only: %i[show create]
       resources :data
+      resources :configurations_forms
     end
   end
 

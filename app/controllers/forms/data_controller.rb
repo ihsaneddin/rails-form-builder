@@ -2,6 +2,7 @@ class Forms::DataController < Forms::ApplicationController
   before_action :set_form_with_eager_load_fields_and_sections, except: [:show]
   before_action :data, only: [:show, :edit, :update, :destroy]
   before_action :criteria_builder, only: [:index]
+  before_action :query_builder_templates, only: [:index]
 
   def index
     if params[:search].present?
@@ -74,6 +75,10 @@ class Forms::DataController < Forms::ApplicationController
 
     def criteria_builder
       @criteria_builder ||= model.build_criteria_template(@form)
+    end
+
+    def query_builder_templates
+      @query_builder_templates ||= Configurations::Form.where(configurable: @form).all
     end
 
     def advanced_search_params

@@ -60,6 +60,7 @@ document.addEventListener("turbolinks:load", () => {
 import TurbolinksAdapter from 'vue-turbolinks'
 import Vue from 'vue/dist/vue.esm'
 import DocumentFormSearch from '../components/document.form.search.vue'
+import SearchConfigurationForm from '../components/search.configuration.form.vue'
 import VueTypeaheadBootstrap from 'vue-typeahead-bootstrap';
 import 'bootstrap/scss/bootstrap.scss';
 
@@ -69,6 +70,7 @@ Vue.component('vue-typeahead-bootstrap', VueTypeaheadBootstrap)
 Vue.use(TurbolinksAdapter)
 
 Vue.component('document-form-search', DocumentFormSearch)
+Vue.component('search-configuration-form', SearchConfigurationForm)
 document.addEventListener('turbolinks:load', () => {
     const app = new Vue({
         el: '[data-behaviour="vue"]'

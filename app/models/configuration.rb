@@ -1,6 +1,6 @@
 class Configuration < ApplicationRecord
 
-  serialize :data
+  # serialize :data
 
   validates :name, presence: true
   belongs_to :context, optional: true, polymorphic: true

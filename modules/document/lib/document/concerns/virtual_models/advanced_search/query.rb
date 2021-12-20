@@ -14,7 +14,7 @@ module Document
 
           def run
             model = virtual_model
-            clauses.reject(&:valid?).each do |clause|
+            clauses.select(&:verified?).each do |clause|
               logical_operator = clause.logical_operator || :where
               model = model.send(logical_operator, clause.to_criteria)
             end

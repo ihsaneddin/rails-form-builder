@@ -12,7 +12,7 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header">
-        <%= render "_document_form/search/form", url: form_data_path(@form), criteria_template: @criteria_builder.clauses %>
+        <%= render "_document_form/search/form", url: form_data_path(@form), criteria_template: @criteria_builder.clauses, query_builder_templates: @query_builder_templates %>
       </div>
       <div class="card-body">
         <div class="row">

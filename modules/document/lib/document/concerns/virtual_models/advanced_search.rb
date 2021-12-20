@@ -16,7 +16,6 @@ module Document
           end
 
           def run_advanced_search clauses
-
             Query.build(virtual_model: self, clauses: clauses).run
           end
 

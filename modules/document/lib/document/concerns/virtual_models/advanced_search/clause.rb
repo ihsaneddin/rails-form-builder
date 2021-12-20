@@ -13,7 +13,10 @@ module Document
           attribute :placeholder, :string
           attribute :logical_operator, :string
           attribute :logical_operators, :string, array: true
-          attribute :comparison_operators, :string, array: true
+          attribute :comparison_operators, :string
+          attribute :ignore_blank_values, :boolean
+          serialize :comparison_operators, Hash
+          attribute :values
 
           validates_presence_of :type, :field
 
@@ -60,12 +63,12 @@ module Document
           after_initialize do
             self.logical_operators ||= LOGICAL_OPERATORS
             if(self.type)
-              self.comparison_operators ||= COMPARISON_OPERATORS.select{|k,v| v[:only] ? v[:only].include?(self.type) : v }
+              self.comparison_operators ||= COMPARISON_OPERATORS.select{|k,v| v[:only] ? v[:only].include?(self.type.to_sym) : v }
             end
           end
 
           def data_type
-            DATA_TYPES[self.type]
+            DATA_TYPES[self.type.to_sym]
           end
 
           def cast_clause!
@@ -83,20 +86,25 @@ module Document
             cast_clause!
             if verified?
               if [:ilike, :like].include?(comparison_operator)
-                val = comparison_operator == :like ? /#{values}/ : /#{values}/i
+                val = comparison_operator.to_sym == :like ? /#{values}/ : /#{values}/i
                 {
                   "#{field}": val
                 }
               else
                 {
-                  "#{field}": { comparison_operators[comparison_operator][:symbol] => values }
+                  "#{field}": { comparison_operators[comparison_operator.to_sym][:symbol] => values }
                 }
               end
             end
           end
 
           def verified?
-            comparison_operators.dig(self.comparison_operator.to_sym) && valid?
+            verified = comparison_operators.dig(self.comparison_operator.to_sym) && valid?
+            if ignore_blank_values
+              verified
+            else
+              verified && !values.blank?
+            end
           end
 
           class Choice < Document::FieldOptions

@@ -8,7 +8,7 @@
         <button class="nav-link" :class="display.heavy && 'active'" id="heavy-tab" data-bs-toggle="tab" data-bs-target="#heavy" type="button" role="tab" aria-controls="heavy" aria-selected="false">Heavy</button>
       </li>
       <li class="nav-item">
-        <button class="nav-link" :class="display.simple_advanced && 'active'" id="simple-advanced-tab" data-bs-toggle="tab" data-bs-target="#simple-advanced" type="button" role="tab" aria-controls="simple-advanced" aria-selected="false">Simple Advanced</button>
+        <button class="nav-link" :class="display.simple_advanced && 'active'" id="simple-advanced-tab" data-bs-toggle="tab" data-bs-target="#simple-advanced" type="button" role="tab" aria-controls="simple-advanced" aria-selected="false">Configured</button>
       </li>
       <li class="nav-item">
         <button class="nav-link" :class="display.advanced && 'active'" id="advanced-tab" data-bs-toggle="tab" data-bs-target="#advanced" type="button" role="tab" aria-controls="advanced" aria-selected="false">Advanced</button>
@@ -41,12 +41,16 @@
         </form>
       </div>
       <div class="tab-pane fade" :class="display.simple_advanced && 'active show'" id="simple-advanced" role="tabpanel" aria-labelledby="simple-advanced-tab">
-        <form :action="simple_advanced_search_url" accept-charset="UTF-8" method="get" class="mt-3" ref="simpleadvancedSearch">
-          <simple-criteria @remove-clause="removeSimpleCriteria(i)" :criteria-template="criteriaTemplate" v-model="simple_clauses[i]" v-for="(clause, i) in simple_clauses" :key="i" class="mb-3" />
+        <form :action="simple_advanced_search_url" accept-charset="UTF-8" method="get" class="mt-3" v-for="(qbt, i) in query_builder_templates" :key="`qbt-${i}`">
+          <fieldset>
+            <legend>
+              {{ qbt.name }}
+            </legend>
+            <configured-criteria-input v-for="(clause, iq) in query_builder_templates[i].data.clauses" :key="`q-${iq}`" v-model="query_builder_templates[i].data.clauses[iq]" />
+          </fieldset>
           <div class="d-flex flex-row justify-content-end mt-5">
             <div class="flex-column-reverse col-1 d-grid gap-2">
-              <button @click="addNewSimpleCriteria" type="button" class="btn text-light btn-secondary">Add More Field</button>
-              <button @click="submitSimpleAdvancedSearch" type="button" class="btn text-light btn-success">Submit</button>
+              <button @click="submitSimpleAdvancedSearch(i)" type="button" class="btn text-light btn-success">Submit</button>
             </div>
           </div>
         </form>
@@ -69,12 +73,14 @@
 <script>
 import Criteria from "./criteria"
 import SimpleCriteria from "./simple.criteria"
+import ConfiguredCriteriaInput from "./configured.criteria.input"
 import Qs from "qs"
 
 export default {
   components:{
     Criteria,
-    SimpleCriteria
+    SimpleCriteria,
+    ConfiguredCriteriaInput
   },
   props: {
     url: {
@@ -82,6 +88,9 @@ export default {
     },
     params: {
       type: Object
+    },
+    query_builder_templates: {
+      type: Array
     },
     criteriaTemplate: {
       type: Array,
@@ -91,7 +100,7 @@ export default {
   data: function () {
     return {
       clauses: this.params.advanced_search || [],
-      simple_clauses: this.params.simple_advanced_search || [],
+      simple_clauses: this.params.simple_advanced_search,
       form_url: this.url,
       show: {
         general: false,
@@ -120,8 +129,9 @@ export default {
     removeCriteria(i){
       this.clauses.splice(i, 1)
     },
-    submitSimpleAdvancedSearch(){
-      const simple_advanced_search = { simple_advanced_search: this.simple_clauses.map(c => ({type: c.type, field: c.field, values: c.values, comparison_operator: c.comparison_operator, logical_operator: c.logical_operator})) }
+    submitSimpleAdvancedSearch(index){
+      const qbt = this.query_builder_templates[index]
+      const simple_advanced_search = { simple_advanced_search_id: qbt.id,  simple_advanced_search: qbt.data.clauses.map(c => ({type: c.type, field: c.field, values: c.values, comparison_operator: c.comparison_operator, logical_operator: c.logical_operator})) }
       const encoded_search_url = Qs.stringify(simple_advanced_search, {
         arrayFormat: "brackets",
         encode: false
@@ -137,7 +147,7 @@ export default {
       });
       this.form_url = `${this.url}?${encoded_search_url}`
       window.location = this.form_url
-    }
+    },
   },
   computed: {
     field_selections: function() {
@@ -156,16 +166,16 @@ export default {
     }
   },
   created(){
-    if(!this.simple_clauses.length){
-      this.addNewSimpleCriteria()
-    }else{
-      this.simple_clauses = this.simple_clauses.map(c => {
-        const template = this.criteriaTemplate.find(ct => ct.field === c.field)
-        if(template){
-          c = Object.assign({}, template, {comparison_operator: c.comparison_operator, logical_operator: c.logical_operator, values: c.values})
-        }
-        return c
-      })
+    const qbt_id = this.params['simple_advanced_search_id']
+    if(qbt_id !== undefined){
+      const qbt_index = this.query_builder_templates.findIndex(qbt => parseInt(qbt_id) === qbt.id)
+      if(qbt_index >= 0){
+        const qbt = this.query_builder_templates[qbt_index]
+        const params_qbt = this.params.simple_advanced_search
+        qbt.data.clauses.forEach((clause, i) => {
+          qbt.data.clauses[i] = Object.assign({}, clause, params_qbt[i])
+        });
+      }
     }
     if(!this.clauses.length){
       this.addNewCriteria()
@@ -173,7 +183,7 @@ export default {
       this.clauses = this.clauses.map(c => {
         const template = this.criteriaTemplate.find(ct => ct.field === c.field)
         if(template){
-          c = Object.assign({}, template, {comparison_operator: c.comparison_operator, logical_operator: c.logical_operator, values: c.values})
+          c = Object.assign({}, template, {ignore_blank_values: c.ignore_blank_values, comparison_operator: c.comparison_operator, logical_operator: c.logical_operator, values: c.values})
         }
         return c
       })

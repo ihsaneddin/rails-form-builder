@@ -1,0 +1,37 @@
+<div class="row gy-3">
+  <div class="col-12 d-flex justify-content-between">
+    <h2>Search Configurations</h2>
+    <%= link_to "New Configuration", new_form_configurations_form_path(@form), class: "btn btn-primary"%>
+  </div>
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col" width="60%">Name</th>
+                  <th scope="col" width="20%">Last Update</th>
+                  <th scope="col" width="20%"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @configurations.each do |config| %>
+                  <tr>
+                    <td><%= config.name %></td>
+                    <td><%= config.updated_at %></td>
+                    <td>
+                      <%= link_to "Edit", edit_form_configurations_form_path(@form, config), class: "btn btn-success text-light" %>
+                      <%= link_to "Destroy", form_configurations_form_path(@form, config), class: "btn btn-danger", method: :delete, data: { confirm: "Are you sure?" } %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
