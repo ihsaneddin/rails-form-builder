@@ -9,7 +9,7 @@ module Document
         :string
       end
 
-      def attached_choices?
+      def has_choices_option?
         true
       end
 
@@ -19,8 +19,9 @@ module Document
         accessibility = overrides.fetch(:accessibility, self.accessibility)
         return model if accessibility == :hidden
 
-        model.attribute name, stored_type, default: [], array_without_blank: true
+        model.field name, type: Array, default: []
         model.attr_readonly name if accessibility == :readonly
+        model.add_as_searchable_field field.name if field.options.try(:searchable)
 
         interpret_validations_to model, accessibility, overrides
         interpret_extra_to model, accessibility, overrides
@@ -33,8 +34,7 @@ module Document
         def interpret_extra_to(model, accessibility, overrides = {})
           super
           return if accessibility != :read_and_write || !options.strict
-
-          model.validates name, subset: { in: options.choices.pluck(:label) }, allow_blank: true
+          model.validates_with Document::Concerns::Models::Fields::Validators::SubsetValidator, _merge_attributes([name, in: options.choices.pluck(:value) , allow_blank: true])
         end
 
     end

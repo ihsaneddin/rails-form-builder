@@ -5,6 +5,12 @@ module Document
 
     attr_accessor :virtual_fields
 
+    before_save do
+      if attachable
+        self.name = attachable.name
+      end
+    end
+
     def get_virtual_fields instance, _fields = nil
       _fields ||= fields
       _fields.map do |field|
@@ -13,10 +19,10 @@ module Document
           if vp.multiple_nested_form?
             field.nested_form.virtual_fields = []
             vp.value_for_preview.each do |nested_instance|
-              field.nested_form.virtual_fields << virtual_fields(nested_instance, field.nested_form.fields)
+              field.nested_form.virtual_fields << get_virtual_fields(nested_instance, field.nested_form.fields)
             end
           else
-            field.nested_form.virtual_fields = virtual_fields vp.value_for_preview, field.nested_form.fields
+            field.nested_form.virtual_fields = get_virtual_fields(vp.value_for_preview, field.nested_form.fields)
           end
         end
         vp

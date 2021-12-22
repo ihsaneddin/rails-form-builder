@@ -1,6 +1,6 @@
 <%= form_with(model: options, scope: :options, url: field_options_path(field), method: :patch, local: true) do |f| %>
 
-  <%= render "_document_form/options/#{field.type_key}", f: f, options: options %>
+  <%= render "_document_form/options/base", f: f, options: options, field: field %>
   <hr />
   <div class="mt-4">
     <%= f.submit "Update Options", class: "btn btn-primary" %>

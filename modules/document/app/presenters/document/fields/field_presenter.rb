@@ -27,12 +27,12 @@ module Document
     end
 
     def access_hidden?
-      target.class.attribute_names.exclude?(@model.name.to_s) && target.class._reflections.keys.exclude?(@model.name.to_s) rescue false
+      target.class.attribute_names.exclude?(@model.name.to_s) && target.class.relations.keys.exclude?(@model.name.to_s) rescue false
     end
 
     def access_read_and_write?
       !access_readonly? &&
-        (target.class.attribute_names.include?(@model.name.to_s) || target.class._reflections.key?(@model.name.to_s))
+        (target.class.attribute_names.include?(@model.name.to_s) || target.class.relations.key?(@model.name.to_s))
     end
 
     def id

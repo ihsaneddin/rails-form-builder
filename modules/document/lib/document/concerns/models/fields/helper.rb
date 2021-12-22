@@ -22,7 +22,7 @@ module Document
           end
 
           def options_configurable?
-            options.is_a?(FieldOptions) && options.attributes.any?
+            options.is_a?(FieldOptions) && (options.attributes.any? || options._reflections.any?)
           end
 
           def validations_configurable?
@@ -32,6 +32,15 @@ module Document
           def attached_nested_form?
             false
           end
+
+          def range_field?
+            false
+          end
+
+          def file_field?
+            false
+          end
+
         end
       end
     end

@@ -2,24 +2,36 @@ module Document
   module Fields
     class DatetimeRangeField < Document::Field
 
-      serialize :validations, Validations::DatetimeField
-      serialize :options, Options::DatetimeField
+      serialize :validations, Validations::DatetimeRangeField
+      serialize :options, Options::DatetimeRangeField
 
       def stored_type
-        :datetime
+        :date_time
       end
 
-      protected
+      def interpret_to(model, overrides: {})
+        check_model_validity!(model)
 
-        def interpret_extra_to(model, accessibility, overrides = {})
-          super
+        accessibility = overrides.fetch(:accessibility, self.accessibility)
+        return model if accessibility == :hidden
 
-          model.class_eval <<-CODE, __FILE__, __LINE__ + 1
-          def #{name}=(val)
-            super(val.try(:in_time_zone)&.utc)
-          end
-          CODE
-        end
+        nested_model = Document::Fields::Embeds::DatetimeRange
+
+        model.nested_models[name] = nested_model
+
+        model.embeds_one name, class_name: nested_model.name, validate: true
+        model.accepts_nested_attributes_for name, reject_if: :all_blank
+        model.add_as_searchable_field field.name if field.options.try(:searchable)
+
+        interpret_validations_to model, accessibility, overrides
+        interpret_extra_to model, accessibility, overrides
+
+        model
+      end
+
+      def range_field?
+        true
+      end
 
     end
   end

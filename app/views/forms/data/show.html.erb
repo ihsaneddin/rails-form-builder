@@ -1,0 +1,19 @@
+<div class="row gy-3">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-12">
+            <%= render "_document_form/preview/form", form: @form, instance: @data %>
+          </div>
+          <div class="col-12">
+            <h4 class="h4">Serialized result</h4>
+            <code>
+              <%= @data.dump.gsub("\n", "<br>").gsub(" ", "&nbsp;").html_safe %>
+            </code>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

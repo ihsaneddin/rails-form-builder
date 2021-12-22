@@ -17,6 +17,7 @@ module Document
           self.form = section.form
         end
       end
+      self.data_type = stored_type
     end
 
 

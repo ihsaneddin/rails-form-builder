@@ -1,6 +1,6 @@
 module Document
   module Fields::Options
-    class DecimalRangeField < Document::FieldOptions
+    class DecimalRangeField < BaseOptions
 
       attribute :begin_from, :string, default: "unrestricted"
       enum begin_from: {

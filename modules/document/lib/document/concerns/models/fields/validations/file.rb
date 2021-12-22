@@ -62,14 +62,10 @@ module Document
 
               def validate_each record, field, value
                 attacher = record.send("#{field}_attacher")
-                begin
                 if attacher
                   attacher.errors.each do |err|
                     record.errors.add field, err
                   end
-                end
-                rescue => e
-                  debugger
                 end
               end
 

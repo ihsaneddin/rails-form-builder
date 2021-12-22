@@ -9,7 +9,7 @@ module Document
         :string
       end
 
-      def attached_choices?
+      def has_choices_option?
         true
       end
 
@@ -19,7 +19,7 @@ module Document
           super
           return if accessibility != :read_and_write || !options.strict
 
-          model.validates name, inclusion: { in: options.choices }, allow_blank: true
+          model.validates name, inclusion: { in: options.choices.pluck(:value) }, allow_blank: true
         end
 
     end

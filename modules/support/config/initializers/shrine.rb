@@ -22,3 +22,4 @@ Shrine.plugin :validation_helpers # validation
 Shrine.plugin :backgrounding # process in background job
 Shrine.plugin :upload_endpoint # endpoint for XHR uploads
 # Shrine.plugin :hooks # callbacks
+Shrine.plugin :mongoid

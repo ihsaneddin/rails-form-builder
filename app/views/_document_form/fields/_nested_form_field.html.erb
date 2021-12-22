@@ -11,7 +11,7 @@
       </div>
       <div class="col-12 links">
         <% if field.access_read_and_write? %>
-          <%= link_to_add_association "Add", f, field.name,
+          <%= link_to_add_association "Add #{field.label}", f, field.name,
                                       force_non_association_create: true,
                                       class: "btn btn-info text-white",
                                       partial: "_document_form/fields/nested_form",
@@ -39,13 +39,13 @@
           $('<%= "##{field.name}" %> .links a.add_fields').hide();
         }
 
-        $('<%= "##{field.name}" %>')
-          .on('cocoon:before-insert', function() {
+        $(document)
+          .on('cocoon:before-insert', '<%= "##{field.name}" %>', function() {
             $('<%= "##{field.name}" %> .links a.add_fields').hide();
           })
-          .on("cocoon:before-remove", function() {
+          .on("cocoon:before-remove", '<%= "##{field.name}" %>', function() {
             $('<%= "##{field.name}" %> .links a.add_fields').show();
-          });
+          })
       });
     </script>
   <% end %>

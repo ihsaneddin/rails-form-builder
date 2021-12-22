@@ -1,0 +1,27 @@
+<%= form_with(model: [form, configuration], scope: :configuration, local: true) do |f| %>
+
+  <%= display_error_validations configuration %>
+
+  <fieldset data-behaviour="vue">
+    <div class="mb-3">
+      <%= f.label :name, class: "form-label", for: "form-name" %>
+      <%= f.text_field :name, class: "form-control", placeholder: "Name" %>
+      <div class="form-text">
+        Configuration name
+      </div>
+    </div>
+    <div class="mb-3">
+      <div class="form-text">
+        The blank values clause will be ignored if Ignore blank is checked when querying
+      </div>
+    </div>
+    <search-configuration-form :configuration="<%= configuration.to_json %>" url="<%= local_assigns[:url] || request.original_url %>" :params="<%= params.to_json %>" :criteria-template="<%= criteria_template.to_json %>" />
+  </fieldset>
+
+  <hr />
+  <div class="mt-4">
+    <%= f.submit class: "btn btn-primary" %>
+  </div>
+</fieldset>
+
+<% end %>

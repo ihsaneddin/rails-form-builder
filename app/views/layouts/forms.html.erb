@@ -20,14 +20,14 @@
         <% end %>
       </li>
       <li class="nav-item">
-        <%= link_to form_preview_path(@form), class: "nav-link #{"active" if controller_name == "previews"}" do%>
+        <%= link_to form_configurations_forms_path(@form), class: "nav-link #{"active" if controller_name == "configurations_forms"}" do%>
           <span class="lead">
-            <strong>Preview</strong>
+            <strong>Search Configuration</strong>
           </span>
         <% end %>
       </li>
       <li class="nav-item">
-        <%= link_to form_load_path(@form), class: "nav-link #{"active" if controller_name == "loads"}" do%>
+        <%= link_to form_data_path(@form), class: "nav-link #{"active" if controller_name == "data"}" do%>
           <span class="lead">
             <strong>Data</strong>
           </span>

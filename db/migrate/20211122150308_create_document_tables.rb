@@ -1,7 +1,7 @@
 class CreateDocumentTables < ActiveRecord::Migration[6.1]
   def change
 
-    create_table :document_forms do |t|
+     create_table :document_forms do |t|
       t.string :name
       t.string :title
       t.text :description
@@ -9,6 +9,7 @@ class CreateDocumentTables < ActiveRecord::Migration[6.1]
       t.string :code
       t.belongs_to :documentable, polymorphic: true, index: true
       t.references :attachable, polymorphic: true, index: true
+
       t.timestamps
     end
 
@@ -21,11 +22,16 @@ class CreateDocumentTables < ActiveRecord::Migration[6.1]
       t.text :validations
       t.integer :position
       t.string :type
-      t.belongs_to :form, index: true
+      t.belongs_to :form
       t.belongs_to :section, index: true
       t.belongs_to :field_group, index: true
+      t.string :data_type, null: false
+
       t.timestamps
     end
+
+    add_index :document_fields, [:form_id, :name], unique: true
+    add_index :document_fields, [:form_id, :position]
 
     create_table :document_sections do |t|
       t.string :title, default: ""

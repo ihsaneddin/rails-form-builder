@@ -29,6 +29,10 @@ module Document
         super(model, accessibility, overrides)
       end
 
+      def file_field?
+        true
+      end
+
     end
   end
 end

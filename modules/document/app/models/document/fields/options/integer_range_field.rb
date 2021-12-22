@@ -1,6 +1,6 @@
 module Document
   module Fields::Options
-    class IntegerRangeField < Document::FieldOptions
+    class IntegerRangeField < BaseOptions
 
       attribute :begin_from, :string, default: "unrestricted"
       enum begin_from: {

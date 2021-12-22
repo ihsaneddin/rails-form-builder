@@ -6,11 +6,7 @@ module Document
       serialize :options, Options::CheckboxField
 
       def stored_type
-        :string
-      end
-
-      def attached_choices?
-        true
+        :array
       end
 
       def interpret_to(model, overrides: {})
@@ -19,13 +15,18 @@ module Document
         accessibility = overrides.fetch(:accessibility, self.accessibility)
         return model if accessibility == :hidden
 
-        model.attribute name, stored_type, default: [], array_without_blank: true
+        model.field name, type: Array, default: []
         model.attr_readonly name if accessibility == :readonly
+        model.add_as_searchable_field field.name if field.options.try(:searchable)
 
         interpret_validations_to model, accessibility, overrides
         interpret_extra_to model, accessibility, overrides
 
         model
+      end
+
+      def has_choices_option?
+        true
       end
 
       protected
@@ -36,8 +37,7 @@ module Document
 
           choices = options.choices
           return if choices.empty?
-
-          model.validates name, subset: { in: choices }, allow_blank: true
+          model.validates_with Document::Concerns::Models::Fields::Validators::SubsetValidator, _merge_attributes([name, in: options.choices.pluck(:value) , allow_blank: true])
         end
 
     end

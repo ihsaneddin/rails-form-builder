@@ -7,7 +7,9 @@ Rails.application.routes.draw do
       resources :fields, except: %i[show]
       resources :sections, except: %i[show]
       resource :preview, only: %i[show create]
-      resource :load, only: %i[show create index]
+      resource :load, only: %i[show create]
+      resources :data
+      resources :configurations_forms
     end
   end
 

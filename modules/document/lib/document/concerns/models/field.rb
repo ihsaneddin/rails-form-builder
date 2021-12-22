@@ -43,11 +43,15 @@ module Document
         end
 
         def stored_type
-          raise NotImplementedError
+          :text #raise NotImplementedError
         end
 
         def default_value
           nil
+        end
+
+        def has_choices_option?
+          false
         end
 
         def interpret_to(model, overrides: {})
@@ -57,9 +61,10 @@ module Document
           return model if accessibility == :hidden
 
           default_value = overrides.fetch(:default_value, self.default_value)
-          model.attribute name, stored_type, default: default_value
+          model.field name, type: stored_type, default: default_value
 
           model.attr_readonly name if accessibility == :readonly
+          model.add_as_searchable_field self.name if self.options.try(:searchable)
 
           interpret_validations_to model, accessibility, overrides
           interpret_extra_to model, accessibility, overrides

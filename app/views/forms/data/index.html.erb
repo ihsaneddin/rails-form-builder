@@ -1,0 +1,55 @@
+<% columns = @model.fields.keys.without("_id", "_type", "form_id") %>
+<% if @model.respond_to?(:_uploadable_config) %>
+  <% uploadable_columns = @model._uploadable_config[@model.name].keys %>
+  <% columns = columns.without(*uploadable_columns.map{|d| "#{d}_data" }) %>
+  <% columns = columns + uploadable_columns%>
+<% end %>
+<div class="row gy-3">
+  <div class="col-12 d-flex justify-content-between">
+    <h2>Data</h2>
+    <%= link_to "New Data", new_form_datum_path, class: "btn btn-primary"%>
+  </div>
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <%= render "_document_form/search/form", url: form_data_path(@form), criteria_template: @criteria_builder.clauses, query_builder_templates: @query_builder_templates %>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">ID</th>
+                  <% columns.map(&:to_s).each do |col| %>
+                    <th scope="col"><%= col.humanize.titleize %></th>
+                  <% end %>
+                </tr>
+              </thead>
+              <tbody>
+                <% @data.each do |data| %>
+                  <tr>
+                    <td><%= data._id %></td>
+                    <% columns.each do |col| %>
+                      <td><%= data.send(col) %></td>
+                    <% end %>
+                    <td>
+                      <%= link_to "Show", form_datum_path(@form, data), class: "btn btn-info text-light" %>
+                      <%= link_to "Edit", edit_form_datum_path(@form, data), class: "btn btn-success text-light" %>
+                      <%= link_to "Destroy", form_datum_path(@form, data), class: "btn btn-danger", method: :delete, data: { confirm: "Are you sure?" } %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col d-flex justify-content-center">
+            <%= paginate @data, theme: 'bootstrap-5' %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

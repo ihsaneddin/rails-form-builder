@@ -5,11 +5,21 @@
     <%= f.label field.label, class: "form-label" %>
   </div>
   <%= f.fields_for field.name do |ff| %>
-    <div class="col-auto">
+    <div class="col-6">
       <%= ff.number_field :begin, class: 'form-control', id: "#{field.id}_begin", required: field.required, **field.begin_options %>
+      <% unless ff.object.errors[:begin].blank? %>
+        <p class="form-text text-danger">
+          <%= ff.object.errors.messages[:begin].uniq.join(", ") %>
+        </p>
+      <% end %>
     </div>
-    <div class="col-auto">
+    <div class="col-6">
       <%= ff.number_field :end, class: 'form-control', id: "#{field.id}_end", required: field.required, **field.end_options %>
+      <% unless ff.object.errors[:end].blank? %>
+        <p class="form-text text-danger">
+          <%= ff.object.errors.messages[:end].uniq.join(", ") %>
+        </p>
+      <% end %>
     </div>
   <% end %>
   <% if field.hint %>

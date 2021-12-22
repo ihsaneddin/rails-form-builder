@@ -10,10 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_01_081417) do
+ActiveRecord::Schema.define(version: 2021_12_17_063732) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "configurations", force: :cascade do |t|
+    t.text "data"
+    t.string "name"
+    t.string "type"
+    t.string "context_type"
+    t.bigint "context_id"
+    t.string "configurable_type"
+    t.bigint "configurable_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["configurable_type", "configurable_id"], name: "index_configurations_on_configurable"
+    t.index ["context_type", "context_id"], name: "index_configurations_on_context"
+  end
 
   create_table "document_field_groups", force: :cascade do |t|
     t.string "name", default: ""
@@ -33,9 +47,12 @@ ActiveRecord::Schema.define(version: 2021_11_01_081417) do
     t.bigint "form_id"
     t.bigint "section_id"
     t.bigint "field_group_id"
+    t.string "data_type", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["field_group_id"], name: "index_document_fields_on_field_group_id"
+    t.index ["form_id", "name"], name: "index_document_fields_on_form_id_and_name", unique: true
+    t.index ["form_id", "position"], name: "index_document_fields_on_form_id_and_position"
     t.index ["form_id"], name: "index_document_fields_on_form_id"
     t.index ["section_id"], name: "index_document_fields_on_section_id"
   end

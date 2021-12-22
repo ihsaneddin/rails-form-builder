@@ -1,6 +1,8 @@
 require_relative 'concern.rb'
 
 require 'validates_timeliness'
+require 'mongoid'
+require 'mongoid_search'
 
 require 'document/coder'
 require 'document/coders/hash_coder'
@@ -17,11 +19,18 @@ require 'document/concerns/models/is_document'
 require 'document/field_options'
 require 'document/non_configurable_field'
 require 'document/virtual_model'
+require 'document/virtual_options'
+require 'document/concerns/virtual_models/general_search'
+require 'document/concerns/virtual_models/advanced_search'
 
 require 'document/concerns/models/field'
 require 'document/concerns/models/form'
 %w[acceptance confirmation exclusion format inclusion length numericality presence file].each do |file|
   require "document/concerns/models/fields/validations/#{file}"
+end
+
+%w[subset_validator].each do |file|
+  require "document/concerns/models/fields/validators/#{file}"
 end
 
 require 'document/patches/active_support/prependable'
