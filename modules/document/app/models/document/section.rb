@@ -15,17 +15,17 @@ module Document
     validates :title, presence: true, unless: :headless
 
     def virtual_fields instance, _fields = nil
-      _fields ||= fields
+      _fields ||= fields.rank(:position)
       _fields.map do |field|
         vp = present_virtual_field(field, target: instance)
         if field.nested_form && vp.value_for_preview
           if vp.multiple_nested_form?
             field.nested_form.virtual_fields = []
             vp.value_for_preview.each do |nested_instance|
-              field.nested_form.virtual_fields << virtual_fields(nested_instance, field.nested_form.fields)
+              field.nested_form.virtual_fields << virtual_fields(nested_instance, field.nested_form.fields.rank(:position))
             end
           else
-            field.nested_form.virtual_fields = virtual_fields vp.value_for_preview, field.nested_form.fields
+            field.nested_form.virtual_fields = virtual_fields vp.value_for_preview, field.nested_form.fields.rank(:position)
           end
         end
         vp

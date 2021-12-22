@@ -8,6 +8,11 @@ module Document
           after_destroy do
             unset_constant virtual_model_name
           end
+          after_update do
+            if saved_change_to_name?
+              unset_constant virtual_model_name
+            end
+          end
         end
 
         def to_virtual_model(model_name: virtual_model_name,
@@ -58,7 +63,7 @@ module Document
           end
 
           def set_constant model_name, model
-            unset_constant model_name if Object.const_defined?(model.name)
+            unset_constant model_name if Object.const_defined?(model_name)
             Object.const_set(model_name, model)
           end
 

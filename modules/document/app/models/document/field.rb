@@ -22,7 +22,7 @@ module Document
 
 
     include RankedModel
-    ranks :position, with_same: [:section_id, :form_id]
+    ranks :position, with_same: [:section_id, :form_id], class_name: self.name
 
     validates :form,
               presence: true,
