@@ -5,7 +5,7 @@ module Document
 
     belongs_to :form, touch: true, inverse_of: :sections
 
-    has_many :fields, -> { order(position: :asc) }, dependent: :nullify, inverse_of: :section, index_errors: true
+    has_many :fields, -> { rank(:position) }, dependent: :nullify, inverse_of: :section, index_errors: true
     accepts_nested_attributes_for :fields, allow_destroy: true
     alias_method :inputs=, :fields_attributes=
 
@@ -15,17 +15,17 @@ module Document
     validates :title, presence: true, unless: :headless
 
     def virtual_fields instance, _fields = nil
-      _fields ||= fields.rank(:position)
+      _fields ||= fields
       _fields.map do |field|
         vp = present_virtual_field(field, target: instance)
         if field.nested_form && vp.value_for_preview
           if vp.multiple_nested_form?
             field.nested_form.virtual_fields = []
             vp.value_for_preview.each do |nested_instance|
-              field.nested_form.virtual_fields << virtual_fields(nested_instance, field.nested_form.fields.rank(:position))
+              field.nested_form.virtual_fields << virtual_fields(nested_instance, field.nested_form.fields)
             end
           else
-            field.nested_form.virtual_fields = virtual_fields vp.value_for_preview, field.nested_form.fields.rank(:position)
+            field.nested_form.virtual_fields = virtual_fields vp.value_for_preview, field.nested_form.fields
           end
         end
         vp

@@ -1,7 +1,7 @@
 module Document
   class Form < BareForm
 
-    has_many :sections, -> { order(position: :asc) }, class_name: "Document::Section", dependent: :destroy, inverse_of: :form, index_errors: true
+    has_many :sections, -> { rank(:position) }, class_name: "Document::Section", dependent: :destroy, inverse_of: :form, index_errors: true
     accepts_nested_attributes_for :sections, allow_destroy: true
 
     has_many :rows, class_name: "Document::FormRow", foreign_key: :form_id
