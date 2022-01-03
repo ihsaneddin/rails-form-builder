@@ -2,7 +2,7 @@ class Forms::FieldsController < Forms::ApplicationController
   before_action :set_field, only: %i[show edit update destroy]
 
   def index
-    @fields = @form.fields.includes(:section).all
+    @fields = @form.fields.includes(:section).rank(:position).all
   end
 
   def new

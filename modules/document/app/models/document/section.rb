@@ -5,7 +5,7 @@ module Document
 
     belongs_to :form, touch: true, inverse_of: :sections
 
-    has_many :fields, -> { order(position: :asc) }, dependent: :nullify, inverse_of: :section, index_errors: true
+    has_many :fields, -> { rank(:position) }, dependent: :nullify, inverse_of: :section, index_errors: true
     accepts_nested_attributes_for :fields, allow_destroy: true
     alias_method :inputs=, :fields_attributes=
 

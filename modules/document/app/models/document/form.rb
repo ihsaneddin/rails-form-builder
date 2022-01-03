@@ -1,12 +1,20 @@
 module Document
   class Form < BareForm
 
-    has_many :sections, -> { order(position: :asc) }, class_name: "Document::Section", dependent: :destroy, inverse_of: :form, index_errors: true
+    has_many :sections, -> { rank(:position) }, class_name: "Document::Section", dependent: :destroy, inverse_of: :form, index_errors: true
     accepts_nested_attributes_for :sections, allow_destroy: true
 
-    has_many :rows, class_name: "Document::FormRow", foreign_key: :form_id
+    serialize :step_options, FormStepOptions
+
+    after_initialize do
+      if respond_to? :step_options
+        self.step_options ||= {}
+      end
+    end
 
     alias_method :segments=, :sections_attributes=
+    alias_method :steps, :sections
+    alias_method :steps=, :sections_attributes=
 
     NAME_REGEX = /\A[a-z][a-z_0-9]*\z/.freeze
 
