@@ -7,6 +7,8 @@ class <%= migration_class_name %> < ActiveRecord::Migration<%= migration_version
       t.text :description
       t.string :type, null: false, index: true
       t.string :code
+      t.boolean :step
+      t.text :step_options
       t.belongs_to :documentable, polymorphic: true, index: true
       t.references :attachable, polymorphic: true, index: true
 
@@ -30,8 +32,8 @@ class <%= migration_class_name %> < ActiveRecord::Migration<%= migration_version
       t.timestamps
     end
 
-    add_index :document_fields, [:form_id, :name], unique: true
-    add_index :document_fields, [:form_id, :position]
+    add_index :document_fields, [:form_id, :name, :id], unique: true
+    add_index :document_fields, [:form_id, :position, :id]
 
     create_table :document_sections do |t|
       t.string :title, default: ""

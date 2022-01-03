@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_17_063732) do
+ActiveRecord::Schema.define(version: 2022_01_03_065514) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -69,6 +69,8 @@ ActiveRecord::Schema.define(version: 2021_12_17_063732) do
     t.bigint "attachable_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "step"
+    t.text "step_options"
     t.index ["attachable_type", "attachable_id"], name: "index_document_forms_on_attachable"
     t.index ["documentable_type", "documentable_id"], name: "index_document_forms_on_documentable"
     t.index ["type"], name: "index_document_forms_on_type"

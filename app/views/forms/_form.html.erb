@@ -16,6 +16,12 @@
       <%= f.text_area :description, class: "form-control", placeholder: "Description", id: "form-description" %>
     </div>
 
+    <div class="mb-3">
+      <%= f.check_box :step, class: "form-check-input" %>
+      <%= f.label "Step", class: "form-check-label", id: "step-form" %>
+    </div>
+
+
     <hr />
    <div class="mt-4">
       <%= f.submit class: "btn btn-primary" %>
@@ -24,3 +30,20 @@
 
 
 <% end %>
+
+<%= content_for :javascript do %>
+<script>
+  document.addEventListener("turbolinks:load", function() {
+    if($('<%= "##{field.name}" %> > .nested_form').length > 0) {
+      $('<%= "##{field.name}" %> .links a.add_fields').hide();
+    }
+
+    $(document)
+      .on('cocoon:before-insert', '<%= "##{field.name}" %>', function() {
+        $('<%= "##{field.name}" %> .links a.add_fields').hide();
+      })
+      .on("cocoon:before-remove", '<%= "##{field.name}" %>', function() {
+        $('<%= "##{field.name}" %> .links a.add_fields').show();
+      })
+  });
+</script>
