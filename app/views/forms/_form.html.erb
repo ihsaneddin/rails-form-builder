@@ -17,10 +17,27 @@
     </div>
 
     <div class="mb-3">
-      <%= f.check_box :step, class: "form-check-input" %>
-      <%= f.label "Step", class: "form-check-label", id: "step-form" %>
+      <%= f.check_box :step, class: "form-check-input", id: "step-form" %>
+      <%= f.label "Step", class: "form-check-label" %>
     </div>
 
+    <div class="row nested_form_field step-options mb-3 <%= form.step ? '' : 'd-none' %>">
+      <div class="col-12">
+        <%= f.label "Step Options", class: "form-label" %>
+      </div>
+      <div class="col-12 collection">
+        <div class="row">
+          <div class="col-12">
+            <%= f.fields_for :step_options, form.step_options do |ff| %>
+              <div class="mb-3">
+                <%= ff.check_box :non_linear, class: "form-check-input" %>
+                <%= ff.label :non_linear, class: "form-check-label" %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <hr />
    <div class="mt-4">
@@ -34,16 +51,16 @@
 <%= content_for :javascript do %>
 <script>
   document.addEventListener("turbolinks:load", function() {
-    if($('<%= "##{field.name}" %> > .nested_form').length > 0) {
-      $('<%= "##{field.name}" %> .links a.add_fields').hide();
-    }
-
-    $(document)
-      .on('cocoon:before-insert', '<%= "##{field.name}" %>', function() {
-        $('<%= "##{field.name}" %> .links a.add_fields').hide();
+    $(document).ready(function(){
+      $(document)
+      .on('change', '#step-form', function(e){
+        if(this.checked){
+          $('.step-options').removeClass('d-none')
+        }else{
+          $('.step-options').addClass('d-none')
+        }
       })
-      .on("cocoon:before-remove", '<%= "##{field.name}" %>', function() {
-        $('<%= "##{field.name}" %> .links a.add_fields').show();
-      })
+    })
   });
 </script>
+<% end %>

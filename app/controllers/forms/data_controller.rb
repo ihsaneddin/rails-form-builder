@@ -32,6 +32,11 @@ class Forms::DataController < Forms::ApplicationController
   def create
     @data = model.new data_params
     if @data.save
+      if @form.step && step.present?
+        unless last_step
+          return redirect_to edit_form_datum_path(@form, @data, {step: step.to_i + 1})
+        end
+      end
       redirect_to form_datum_path(@form, @data), notice: "Data was successfully created."
     else
       render :new
@@ -48,6 +53,11 @@ class Forms::DataController < Forms::ApplicationController
 
   def update
     if @data.update data_params
+      if @form.step && step.present?
+        unless last_step
+          return redirect_to edit_form_datum_path(@form, @data, {step: step.to_i + 1})
+        end
+      end
       redirect_to form_datum_path(@form, @data), notice: "Data was successfully updated."
     else
       render :edit
@@ -62,7 +72,20 @@ class Forms::DataController < Forms::ApplicationController
   private
 
     def model
-      @model ||= @form.to_virtual_model
+      return @model if @model
+      if @form.step && step.present?
+        fields = []
+        @model ||= @form.to_virtual_model fields_scope: proc {|fields|
+          _step = step.to_i
+          section = @form.sections.select{|sect| sect.position_rank == _step }.first
+          if(section)
+            fields = fields.select{|field| field.section_id == section.id }
+          end
+          fields
+        }
+      else
+        @model ||= @form.to_virtual_model
+      end
     end
 
     def data_params
@@ -87,6 +110,18 @@ class Forms::DataController < Forms::ApplicationController
 
     def simple_advanced_search_params
       (params.permit![:simple_advanced_search] || []).map(&:to_h)
+    end
+
+    def step
+      params[:step]
+    end
+
+    def last_step
+      step.to_i + 1 == @form.step_options.total
+    end
+
+    def first_step
+      step.to_i == 0
     end
 
 end

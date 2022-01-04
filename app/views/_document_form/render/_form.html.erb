@@ -1,22 +1,61 @@
 <% options ||= {} %>
-<%= form_with(model: instance, **options) do |f| %>
-
-  <%= display_error_validations instance %>
-
-  <fieldset>
-    <% form.sections.each do |section| %>
-      <% fields = section.virtual_fields(instance) %>
-      <% next if fields.empty? %>
-      <% unless section.headless? %>
-        <legend class="h4"><%= section.title %></legend>
-      <% end %>
-      <% fields.each do |field| %>
-        <%= render "_document_form/fields/#{field.type_key}", f: f, field: field %>
-      <% end %>
+<%= display_error_validations instance %>
+<% if form.step %>
+  <% step = params[:step].to_i %>
+  <% last_step = step + 1 == form.step_options.total %>
+  <% first_step = step + 1 == 1 %>
+  <%= form_with(model: instance, **options.merge({url: instance.new_record?? form_data_path(form, {step: step}) : form_datum_path(form, instance, {step: step}) })) do |f| %>
+    <% section = form.sections.select{|section| section.position_rank == step }.first %>
+    <% if section %>
+      <fieldset>
+        <% fields = section.virtual_fields(instance) %>
+        <% next if fields.empty? %>
+        <% if section.headless? %>
+          <legend class="h4">
+            Step <%= step + 1%>
+          </legend>
+        <% else %>
+          <legend class="h4">
+            Step <%= step + 1%>
+            <%= section.title %>
+          </legend>
+        <% end %>
+        <% fields.each do |field| %>
+          <%= render "_document_form/fields/#{field.type_key}", f: f, field: field %>
+        <% end %>
+        <hr />
+        <div class="mt-4 d-flex justify-content-between">
+          <div class="d-flex justify-content-start">
+            <%= link_to "Previous", instance.new_record?? new_form_datum_path(@form, {step: step - 1}) : edit_form_datum_path(@form, instance, {step: step - 1}) ,class: "btn btn-primary"  unless first_step%>
+          </div>
+          <div class="d-flex justify-content-end">
+            <% if last_step %>
+              <%= f.submit "Finish", class: "btn btn-primary" %>
+            <% else %>
+              <%= f.submit "Next", class: "btn btn-primary" %>
+            <% end %>
+          </div>
+        </div>
+      </fieldset>
     <% end %>
-    <hr />
-    <div class="mt-4">
-      <%= f.submit class: "btn btn-primary" %>
-    </div>
-  </fieldset>
+  <% end %>
+<% else %>
+  <%= form_with(model: instance, **options) do |f| %>
+    <fieldset>
+      <% form.sections.each do |section| %>
+        <% fields = section.virtual_fields(instance) %>
+        <% next if fields.empty? %>
+        <% unless section.headless? %>
+          <legend class="h4"><%= section.title %></legend>
+        <% end %>
+        <% fields.each do |field| %>
+          <%= render "_document_form/fields/#{field.type_key}", f: f, field: field %>
+        <% end %>
+      <% end %>
+      <hr />
+      <div class="mt-4">
+        <%= f.submit class: "btn btn-primary" %>
+      </div>
+    </fieldset>
+  <% end %>
 <% end %>
