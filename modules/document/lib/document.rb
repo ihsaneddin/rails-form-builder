@@ -22,6 +22,7 @@ require 'document/virtual_model'
 require 'document/virtual_options'
 require 'document/concerns/virtual_models/general_search'
 require 'document/concerns/virtual_models/advanced_search'
+require 'document/concerns/virtual_models/steps'
 
 require 'document/concerns/models/field'
 require 'document/concerns/models/form'

@@ -1,7 +1,7 @@
 <% options ||= {} %>
 <%= display_error_validations instance %>
 <% if form.step %>
-  <% step = params[:step].to_i %>
+  <% step = params[:step].nil?? instance._current_step : params[:step].to_i %>
   <% last_step = step + 1 == form.step_options.total %>
   <% first_step = step + 1 == 1 %>
   <%= form_with(model: instance, **options.merge({url: instance.new_record?? form_data_path(form, {step: step}) : form_datum_path(form, instance, {step: step}) })) do |f| %>

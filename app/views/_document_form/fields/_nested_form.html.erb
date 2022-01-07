@@ -1,19 +1,19 @@
 <% nesting ||= false %>
 
-  <div class="nested_form row bg-light mx-2 py-2 mb-3">
-    <div class="col-12">
-      <%= display_error_validations form %>
-    </div>
-    <div class="col-12">
-      <% form.get_virtual_fields(f.object).each do |field| %>
-        <%unless field.access_hidden? %>
-          <%= render "_document_form/fields/#{field.type_key}", f: f, field: field, nesting: nesting %>
-        <% end %>
+<div class="nested_form row bg-light mx-2 py-2 mb-3">
+  <div class="col-12">
+    <%= display_error_validations form %>
+  </div>
+  <div class="col-12">
+    <% form.get_virtual_fields(f.object).each do |field| %>
+      <%unless field.access_hidden? %>
+        <%= render "_document_form/fields/#{field.type_key}", f: f, field: field, nesting: nesting %>
       <% end %>
-    </div>
-    <% if field.access_read_and_write? %>
-      <div class="col-12 d-flex justify-content-end mt-3">
-        <%= link_to_remove_association "Remove", f, class: "btn btn-danger", wrapper_class: "nested_form" %>
-      </div>
     <% end %>
   </div>
+  <% if field.access_read_and_write? %>
+    <div class="col-12 d-flex justify-content-end mt-3">
+      <%= link_to_remove_association "Remove", f, class: "btn btn-danger", wrapper_class: "nested_form" %>
+    </div>
+  <% end %>
+</div>
