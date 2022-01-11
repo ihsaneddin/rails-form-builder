@@ -6,6 +6,14 @@ module Document
 
     serialize :step_options, FormStepOptions
 
+    before_save do
+      if will_save_change_to_attribute?(:step)
+        if step
+          step_options.total = sections.count
+        end
+      end
+    end
+
     after_initialize do
       if respond_to? :step_options
         self.step_options ||= {}

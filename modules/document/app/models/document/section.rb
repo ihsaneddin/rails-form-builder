@@ -14,6 +14,20 @@ module Document
 
     validates :title, presence: true, unless: :headless
 
+    after_create do
+      if form.present? and form.step
+        form.step_options.total = form.step_options.total + 1
+        form.save
+      end
+    end
+
+    after_destroy do
+      if form.present? and form.step
+        form.step_options.total = form.step_options.total - 1
+        form.save
+      end
+    end
+
     def virtual_fields instance, _fields = nil
       _fields ||= fields
       _fields.map do |field|

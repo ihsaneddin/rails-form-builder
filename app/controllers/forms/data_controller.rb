@@ -1,5 +1,6 @@
 class Forms::DataController < Forms::ApplicationController
   before_action :set_form_with_eager_load_fields_and_sections, except: [:show]
+  before_action :activate_step_form, only: [:new, :create, :edit, :update]
   before_action :data, only: [:show, :edit, :update, :destroy]
   before_action :criteria_builder, only: [:index]
   before_action :query_builder_templates, only: [:index]
@@ -32,6 +33,11 @@ class Forms::DataController < Forms::ApplicationController
   def create
     @data = model.new data_params
     if @data.save
+      if @form.step && step.present?
+        unless last_step
+          return redirect_to edit_form_datum_path(@form, @data, {step: step.to_i + 1})
+        end
+      end
       redirect_to form_datum_path(@form, @data), notice: "Data was successfully created."
     else
       render :new
@@ -48,6 +54,11 @@ class Forms::DataController < Forms::ApplicationController
 
   def update
     if @data.update data_params
+      if @form.step && step.present?
+        unless last_step
+          return redirect_to edit_form_datum_path(@form, @data, {step: step.to_i + 1})
+        end
+      end
       redirect_to form_datum_path(@form, @data), notice: "Data was successfully updated."
     else
       render :edit
@@ -70,7 +81,12 @@ class Forms::DataController < Forms::ApplicationController
     end
 
     def data
+      return @data if @data
       @data = model.find(params[:id])
+      if(step)
+        @data.set_current_step(step.to_i)
+      end
+      @data
     end
 
     def criteria_builder
@@ -87,6 +103,28 @@ class Forms::DataController < Forms::ApplicationController
 
     def simple_advanced_search_params
       (params.permit![:simple_advanced_search] || []).map(&:to_h)
+    end
+
+    def step
+      params[:step]
+    end
+
+    def last_step
+      step.to_i + 1 == @form.step_options.total
+    end
+
+    def first_step
+      step.to_i == 0
+    end
+
+    def activate_step_form
+      if @form.step
+        if step
+          @form.activate_step step.to_i
+        else
+          @form.activate_step_from_uid params[:id]
+        end
+      end
     end
 
 end

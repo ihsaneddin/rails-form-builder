@@ -42,6 +42,6 @@ class FormsController < ApplicationController
     end
 
     def form_params
-      params.fetch(:form, {}).permit(:title, :name, :description)
+      params.fetch(:form, {}).permit(:title, :name, :description, :step, step_options: [:non_linear])
     end
 end
